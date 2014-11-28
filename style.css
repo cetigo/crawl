@@ -1,0 +1,1455 @@
+@font-face {
+	font-family: 'Zombified';
+	src: url('Zombified.ttf');
+}
+
+@font-face {
+	font-family: 'True Lies';
+	src: url('True Lies.ttf');
+}
+
+@-webkit-keyframes healthwarp {
+   0%   {background-color: rgb(131, 18, 18);}
+   50% {background-color: rgb(77, 9, 9);}
+   100%   {background-color: rgb(131, 18, 18);}
+}
+
+@-moz-keyframes healthwarp {
+   0%   {background-color: rgb(131, 18, 18);}
+   50% {background-color: rgb(77, 9, 9);}
+   100%   {background-color: rgb(131, 18, 18);}
+}
+
+@keyframes healthwarp {
+   0%   {background-color: rgb(131, 18, 18);}
+   50% {background-color: rgb(77, 9, 9);}
+   100%   {background-color: rgb(131, 18, 18);}
+}
+
+@-webkit-keyframes currentwarp {
+   0%   {background-color: #fff;}
+   50% {background-color: #c5c5c5;}
+   100%   {background-color: #fff;}
+}
+
+@-moz-keyframes currentwarp {
+   0%   {background-color: #fff;}
+   50% {background-color: #c5c5c5;}
+   100%   {background-color: #fff;}
+}
+
+@keyframes currentwarp {
+   0%   {background-color: #fff;}
+   50% {background-color: #c5c5c5;}
+   100%   {background-color: #fff;}
+}
+
+@-webkit-keyframes spelleffect {
+   0%   {left: -100%;}
+   20% {left: -15px;}
+   80% {left: 15px;}
+   100%   {left: 100%;}
+}
+
+@-moz-keyframes spelleffect {
+   0%   {left: -100%;}
+   20% {left: -15px;}
+   80% {left: 15px;}
+   100%   {left: 100%;}
+}
+
+@keyframes spelleffect {
+   0%   {left: -100%;}
+   20% {left: -15px;}
+   80% {left: 15px;}
+   100%   {left: 100%;}
+}
+
+@-webkit-keyframes damagetaken {
+	0% {-webkit-transform: translateX(0px); transform: translateX(0px);}
+	25% {-webkit-transform: translateX(4px); transform: translateX(4px);}
+	50% {-webkit-transform: translateX(-4px); transform: translateX(-4px);}
+	75% {-webkit-transform: translateX(3px); transform: translateX(3px);}
+	90% {-webkit-transform: translateX(-1px); transform: translateX(-1px);}
+	100% {-webkit-transform: translateX(0px); transform: translateX(0px);}
+}
+
+@keyframes damagetaken {
+	0% {-webkit-transform: translateX(0px); transform: translateX(0px);}
+	25% {-webkit-transform: translateX(4px); transform: translateX(4px);}
+	50% {-webkit-transform: translateX(-4px); transform: translateX(-4px);}
+	75% {-webkit-transform: translateX(3px); transform: translateX(3px);}
+	90% {-webkit-transform: translateX(-1px); transform: translateX(-1px);}
+	100% {-webkit-transform: translateX(0px); transform: translateX(0px);}
+}
+
+@-webkit-keyframes spawnupon {
+	0% { -webkit-transform: translateY(-8px); transform: translateY(-8px); opacity: 0;}
+	100% { -webkit-transform: translateY(0); transform: translateY(0); opacity: 1;}
+}
+
+@keyframes spawnupon {
+	0% { -webkit-transform: translateY(-8px); transform: translateY(-8px); opacity: 0;}
+	100% { -webkit-transform: translateY(0); transform: translateY(0); opacity: 1;}
+}
+
+@-webkit-keyframes fallupon {
+	0% { -webkit-transform: translateY(0); transform: translateY(0); opacity: 1;}
+	100% { -webkit-transform: translateY(8px); transform: translateY(8px); opacity: 0;}
+}
+
+@keyframes fallupon {
+	0% { -webkit-transform: translateY(0); transform: translateY(0); opacity: 1;}
+	100% { -webkit-transform: translateY(8px); transform: translateY(8px); opacity: 0;}
+}
+
+@-webkit-keyframes idboxping {
+	0% {
+		-webkit-transform: scale(1,1);
+		transform: scale(1,1);
+		background-color: #737373
+	}
+	7% { /* Ramp quickly to the big state */
+		-webkit-transform: scale(1.17,1.17); 
+		transform: scale(1.17,1.17); 
+		background-color: rgb(91, 149, 236); 
+	}
+	8 % {
+		-webkit-transform: scale(1.15,1.15); 
+		transform: scale(1.15,1.15); 
+	}
+	100% { -webkit-transform: scale(1,1); transform: scale(1,1); background-color: #737373 }
+}
+
+@keyframes idboxping {
+	0% {
+		-webkit-transform: scale(1,1);
+		transform: scale(1,1);
+		background-color: #737373
+	}
+	7% { /* Ramp quickly to the big state */
+		-webkit-transform: scale(1.17,1.17); 
+		transform: scale(1.17,1.17); 
+		background-color: rgb(91, 149, 236); 
+	}
+	8 % {
+		-webkit-transform: scale(1.15,1.15); 
+		transform: scale(1.15,1.15); 
+	}
+	100% { -webkit-transform: scale(1,1); transform: scale(1,1); background-color: #737373 }
+}
+
+@-webkit-keyframes redflash {
+	25% {
+		background-color: #fff;
+		color: #000;
+	}
+	26% {
+		background-color: crimson;
+		color: #fff;
+	}
+	50% {
+		background-color: crimson;
+		color: #fff;
+	}
+	51% {
+		background-color: #fff;
+		color: #000;
+	}
+	75% {
+		background-color: #fff;
+		color: #000;
+	}
+	76% {
+		background-color: crimson;
+		color: #fff;
+	}
+	99% {
+		background-color: crimson;
+		color: #fff;
+	}
+	100% {
+		background-color: #fff;
+		color: #000;
+	}
+}
+
+@keyframes redflash {
+	25% {
+		background-color: #fff;
+		color: #000;
+	}
+	26% {
+		background-color: crimson;
+		color: #fff;
+	}
+	50% {
+		background-color: crimson;
+		color: #fff;
+	}
+	51% {
+		background-color: #fff;
+		color: #000;
+	}
+	75% {
+		background-color: #fff;
+		color: #000;
+	}
+	76% {
+		background-color: crimson;
+		color: #fff;
+	}
+	99% {
+		background-color: crimson;
+		color: #fff;
+	}
+	100% {
+		background-color: #fff;
+		color: #000;
+	}
+}
+
+@-webkit-keyframes debuffspawn {
+	0% {
+		-webkit-transform: translateY(30px) scale(1.15,1.15);
+		transform: translateY(30px) scale(1.15,1.15);
+	}
+
+	15% {
+		-webkit-transform: translateY(3px) scale(1.15,1.15); 
+		transform: translateY(3px) scale(1.15,1.15);
+	}
+
+	85% {
+		-webkit-transform: translateY(-3px) scale(1.15,1.15); 
+		transform: translateY(-3px) scale(1.15,1.15);
+	}
+
+	100% {
+		-webkit-transform: translateY(0px) scale(1,1); 
+		transform: translateY(0px) scale(1,1);
+	}
+}
+
+@keyframes debuffspawn {
+	0% {
+		-webkit-transform: translateY(30px) scale(1.15,1.15);
+		transform: translateY(30px) scale(1.15,1.15);
+	}
+
+	15% {
+		-webkit-transform: translateY(3px) scale(1.15,1.15); 
+		transform: translateY(3px) scale(1.15,1.15);
+	}
+
+	85% {
+		-webkit-transform: translateY(-3px) scale(1.15,1.15); 
+		transform: translateY(-3px) scale(1.15,1.15);
+	}
+
+	100% {
+		-webkit-transform: translateY(0px) scale(1,1); 
+		transform: translateY(0px) scale(1,1);
+	}
+}
+
+* {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-moz-user-select: -moz-none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+#globalwrapper {
+	position: absolute;
+	top: 0; left: 0; right: 0; bottom: 0;
+	width: 100%; height: 100%;
+}
+
+body {
+	overflow: hidden;
+	counter-reset: kapitel;
+	background-color: #111;
+}
+
+#floortitle {
+	position: absolute;
+	top: 25px;
+	left: 50%; margin-left: -412px;
+	width: 402px; text-align: center;
+	font-size: 32px; color: #999;
+
+	font-family: "Calisto MT", "Bookman Old Style", Bookman, "Goudy Old Style", Garamond, "Hoefler Text", "Bitstream Charter", Georgia, serif;
+
+	text-shadow: 0px 1px 0px #b2a98f,
+             0px 7px 10px rgba(0,0,0,0.15),
+             0px 12px 2px rgba(0,0,0,0.3),
+             0px 17px 30px rgba(0,0,0,0.3);
+
+    -webkit-transition: opacity 0.5s;
+    -moz-transition: opacity 0.5s;
+    transition: opacity 0.5s;
+}
+
+#idcontainer {
+	position: absolute;
+	top: 80px;
+	left: 50%;
+	margin-left: -412px;
+	width: 392px;
+	font-size: 0;
+	background-color: #1a1917;
+	border: 5px solid #000;
+
+	-webkit-box-shadow: 0 2px 1px #141414;
+	-moz-box-shadow: 0 2px 1px #141414;
+	box-shadow: 0 2px 1px #141414;
+
+	opacity: 1;
+
+	-webkit-transition: opacity 0.5s;
+	-moz-transition: opacity 0.5s;
+	transition: opacity 0.5s;
+}
+
+.idbox {
+	counter-increment: kapitel;
+	display: inline-block;
+	width: 50px;
+	font-size: 18px;
+	text-align: center;
+	background-color: #333;
+	color: #aaa;
+	opacity: 0;
+	border: 3px solid #010101;
+}
+
+.idbox.focus {
+	background-color: #1B1B1B;
+	border: 3px solid #010101;
+	color: rgba(0,0,0,0);
+	opacity: 1;
+
+	-webkit-box-shadow: 0 1px 2px #141414;
+	-moz-box-shadow: 0 2px 1px #141414;
+	box-shadow: 0 2px 1px #141414;
+}
+
+.idbox.focus.visited {
+	background-color: #737373;
+}
+
+.idbox.present {
+	-webkit-animation: currentwarp 10s linear infinite;
+	animation: currentwarp 10s linear infinite;
+	border: 3px solid #010101;
+	color: rgba(0,0,0,0);
+	opacity: 1;
+}
+
+.idbox::before {
+	content: counter(kapitel);
+}
+
+.idbox.alert {
+	-webkit-animation: idboxping 1s linear infinite;
+	animation: idboxping 1s linear infinite;
+}
+
+#hud {
+	position: absolute;
+	top: 80px;
+	left: 50%;
+	width: 402px;
+	height: 199px;
+	font-family: "Calisto MT", "Bookman Old Style", Bookman, "Goudy Old Style", Garamond, "Hoefler Text", "Bitstream Charter", Georgia, serif;
+	background-color: #333;
+	color: #fff;
+	font-size: 18px;
+	padding: 15px;
+	margin-left: 10px;
+	box-sizing: border-box;
+	border: 5px solid #000;
+
+	-webkit-box-shadow: 0 1px 2px #141414;
+	-moz-box-shadow: 0 2px 1px #141414;
+	box-shadow: 0 2px 1px #141414;
+	opacity: 1;
+
+	-webkit-transition: opacity 0.5s;
+	-moz-transition: opacity 0.5s;
+	transition: opacity 0.5s;
+}
+
+#hud.damagetaken {
+	-webkit-animation: damagetaken 0.2s linear;
+	animation: damagetaken 0.2s linear;
+}
+
+#hud #hud-currentroom, #hud #hud-currenttype, #hud #hud-healthlabel, #hud #hud-currentconnections {
+	overflow: hidden;
+	padding-left: 15px;
+	text-align: left;
+	position: relative;
+}
+
+#hud #hud-currentroom:before {
+	content: 'Position: ';
+	color: #aaa;
+}
+
+#hud #hud-currentconnections:before {
+	color: #aaa;
+	content: 'Doors: ';
+}
+
+#hud #hud-currenttype:before {
+	content: 'Room Type: ';
+	color: #aaa;
+}
+
+#hud #hud-healthbar, #fighting #fighting-healthbar {
+	height: 9px;
+	position: relative;
+	padding: 8px 12px 8px;
+	border: 3px solid #424242;
+	-webkit-box-shadow: inset 0 -1px 1px rgba(0,0,0,0.3);
+	-moz-box-shadow: inset 0 -1px 1px rgba(0,0,0,0.3);
+	box-shadow: inset 0 -1px 1px rgba(0,0,0,0.3);
+}
+
+#hud #hud-healthbar {
+	height: 17px;
+	padding: 4px;
+}
+
+#hud #hud-healthbar.healthbarDmg, #fighting #fighting-healthbar.healthbarDmg {
+	background-color: rgb(255, 0, 48);
+}
+
+#hud #hud-healthbar.healthbarHeal, #fighting #fighting-healthbar.healthbarHeal {
+	background-color: rgba(117, 243, 0, 0.53);
+}
+
+#fighting #fighting-healthbar {
+ 	position: absolute;
+	width: 270px;
+	top: 100px;
+	right: 54px;
+	height: 22px;
+}
+
+#hud #hud-healthbar > span {
+	display: block;
+	height: 100%;
+	background-color: rgb(131, 18, 18);
+	-webkit-animation: healthwarp 10s linear infinite;
+	animation: healthwarp 10s linear infinite;
+	position: relative;
+	overflow: hidden;
+	-webkit-transition: width 0.2s;
+	-moz-transition: width 0.2s;
+	transition: width 0.2s;
+	box-shadow: 0 2px 1px rgba(20, 20, 20, 0.5);
+}
+
+#fighting #fighting-healthbar > span {
+	display: block;
+	height: 100%;
+	position: relative;
+	overflow: hidden;
+	background-color: rgba(39, 0, 0, 0.8);
+	-webkit-transition: width 0.2s;
+	-moz-transition: width 0.2s;
+	transition: width 0.2s;
+}
+
+#hud #hud-healthlabel:before {
+	content: "+ ";
+	color: #aaa;
+}
+
+#hud #hud-healthlabel:after, #hud #hud-currentroom:after, #hud #hud-currenttype:after, #hud #hud-currentconnections:after {
+	content: "";
+	position: absolute;
+	height: 0px;
+	border-bottom: 3px solid #424242;
+	top: 0;
+	width: 100%;
+	top: 9px;
+	margin-left: 10px;
+}
+
+#hud #hud-keys, #hud #hud-spk, #hud #hud-potion {
+	display: block;
+	position: relative;
+	margin-top: 5px;
+	padding-left: 10px;
+	font-size: 22px;
+	width: 40%;
+}
+
+#hud #hud-keys { margin-top: 15px; }
+#hud #hud-spk { cursor: pointer; }
+#hud #hud-spk:hover, #hud #hud-spk.active { background-color: rgba(20,20,20,0.2); }
+
+#hud #hud-keys:after, #hud #hud-spk:after, #hud #hud-potion:after {
+	/*content: 'Schl\000FCssel';*/
+	content: 'Keys';
+	margin-left: 5px;
+	font-size: 16px;
+	color: #aaa;
+}
+
+#hud #hud-spk:after { content: 'Painkiller'; text-decoration: underline; }
+#hud #hud-potion:after { content: 'Potions'; }
+
+#text-main {
+	position: absolute;
+	top: 305px;
+	left: 50%; margin-left: -412px;
+	width: 814px; height: 190px;
+
+	color: #eee;
+	text-align: center;
+	font-size: 30px;
+	font-family: "Calisto MT", "Bookman Old Style", Bookman, "Goudy Old Style", Garamond, "Hoefler Text", "Bitstream Charter", Georgia, serif;
+
+	text-shadow: 0px 1px 0px #b2a98f,
+             0px 7px 10px rgba(0,0,0,0.15),
+             0px 12px 2px rgba(0,0,0,0.3),
+             0px 17px 30px rgba(0,0,0,0.3);
+}
+
+#text-main span#text-trigger1, #text-main span#text-trigger2 {
+	color: #7E7E7E;
+	border-bottom: 4px solid #7E7E7E;
+	cursor: pointer;
+}
+
+#text-main span#text-trigger1:hover, #text-main span#text-trigger2:hover, #text-main span#text-trigger1.active, #text-main span#text-trigger2.active {
+	color: #fff;
+	border-color: #fff;
+}
+
+#text-main span#text-loader, #text-main span#text-loader2 {
+	position: relative;
+}
+
+#text-main span#text-loader:after, #text-main span#text-loader2:after {
+	content: attr(data-text);
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 200px;
+	white-space: nowrap;
+	overflow: hidden;
+	z-index: 10;
+	color: rgb(255, 51, 0);
+	text-shadow: 0px 1px 0px #771414, 0px 7px 10px rgba(190, 84, 0, 0.7), 0px 12px 2px rgba(255, 215, 184, 0.33), 0px 17px 30px rgba(255, 234, 179, 0.39);
+	-webkit-transition: width 0.6s;
+	transition: width 0.6s;
+	text-align: left;
+	width: 0;
+}
+
+#text-main span#text-loader2:after {
+	color: rgb(0, 194, 255);
+	text-shadow: 0px 1px 0px #381477, 0px 7px 10px rgba(0, 167, 190, 0.7), 0px 12px 2px rgba(255, 215, 184, 0.33), 0px 17px 30px rgba(255, 234, 179, 0.39);
+}
+
+#text-main span#text-loader.loading:after, #text-main span#text-loader2.loading:after {
+	width: 100%;
+}
+
+#text-main em {
+	font-style: normal;
+	text-shadow: 0px 1px 0px #FF0000, 0px 7px 10px rgba(0,0,0,0.15), 0px 12px 2px rgba(0,0,0,0.3), 0px 17px 30px rgba(0,0,0,0.3);
+}
+
+#text-main i em {
+	font-style: italic !important;
+}
+
+#fighting {
+	position: absolute;
+	top: 305px;
+	left: 50%; margin-left: -412px;
+	width: 814px; height: 350px;
+	opacity: 1;
+
+	-webkit-transition: opacity 0.5s;
+	-moz-transition: opacity 0.5s;
+	transition: opacity 0.5s;
+}
+
+#fighting #fighting-name {
+	font-family: 'True Lies';
+	color: #fff;
+	overflow: hidden;
+	background-color: rgba(39, 0, 0, 0.8);
+	text-shadow: 0px 1px 0px #b2a98f, 0px 7px 10px rgba(0,0,0,0.15), 0px 12px 2px rgba(0,0,0,0.3), 0px 17px 30px rgba(0,0,0,0.3);
+	padding-top: 5px;
+	font-size: 32px;
+	position: absolute;
+	letter-spacing: 2px;
+	top: 25px;
+	right: 54px;
+	width: 300px;
+	text-align: center;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+	-webkit-animation: healthwarp 1.5s linear infinite;
+	animation: healthwarp 1.5s linear infinite;
+
+	-webkit-transition: color 0.3s, background-color 0.3s;
+	-moz-transition: color 0.3s, background-color 0.3s;
+	transition: color 0.3s, background-color 0.3s;
+}
+
+#fighting #fighting-name.damagetaken {
+	background-color: rgba(255, 14, 14, 0.8);
+	-webkit-animation: damagetaken 0.2s linear;
+	animation: damagetaken 0.2s linear;
+}
+
+#fighting #fighting-name.dead {
+	background-color: rgba(10,0,0,0.5) !important;
+	color: #aaa !important;
+
+	-webkit-animation: none !important;
+	animation: none !important;
+}
+
+#fighting #fighting-enemyspell {
+	opacity: 0;
+	background-color: rgba(14, 1, 1, 1);
+	position: absolute;
+	top: 25px;
+	right: 54px;
+	width: 300px;
+	height: 44px;
+	line-height: 44px;
+	z-index: 20;
+	overflow: hidden;
+
+	-webkit-transition: opacity 0.2s;
+	-moz-transition: opacity 0.2s;
+	transition: opacity 0.2s;
+}
+
+#fighting #fighting-enemyspell span {
+	opacity: 0;
+	position: absolute;
+	top: 0;
+	left: -100%;
+	width: 100%;
+	text-align: center;
+	font-family: 'True Lies';
+	color: #fff;
+	letter-spacing: 2px;
+	text-shadow: 0px 1px 0px #b2a98f, 0px 7px 10px rgba(0,0,0,0.15), 0px 12px 2px rgba(0,0,0,0.3), 0px 17px 30px rgba(0,0,0,0.3);
+	font-size: 32px;
+
+	-webkit-transition: opacity 0.2s;
+	transition: opacity 0.2s;
+}
+
+#fighting #fighting-enemyspell.visible { opacity: 1; }
+#fighting #fighting-enemyspell.visible span {
+	opacity: 1;
+
+	-webkit-animation: spelleffect 0.9s linear; 
+	animation: spelleffect 0.9s linear; 
+}
+
+#fighting #fighting-button {
+	display: none;
+	position: absolute;
+	font-size: 28px;
+	z-index: 15;
+	top: 22px;
+	left: 12px;
+	line-height: 166px;
+	height: 176px;
+	width: 396px;
+	font-family: "Calisto MT", "Bookman Old Style",Bookman,"Goudy Old Style",Garamond, "Hoefler Text", "Bitstream Charter", Georgia, serif;
+	text-shadow: 0px 1px 0px #b2a98f,
+	 0px 7px 10px rgba(0,0,0,0.15),
+	 0px 12px 2px rgba(0,0,0,0.3),
+	 0px 17px 30px rgba(0,0,0,0.3);
+	color: #fff;
+	background-color: rgba(43, 43, 43, 0.95);
+	text-align: center;
+	cursor: default;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+}
+
+#fighting #fighting-button:hover {
+	background-color: rgba(24, 24, 24, 0.95);
+}
+
+#fighting #fighting-healthlabel {
+	position: absolute;
+	width: 300px;
+	top: 75px;
+	right: 54px;
+	height: 22px;
+	overflow: hidden;
+	color: #fff;
+	font-family: "Calisto MT", "Bookman Old Style", Bookman, "Goudy Old Style", Garamond, "Hoefler Text", "Bitstream Charter", Georgia, serif;
+}
+
+#fighting #fighting-healthlabel:before {
+	color: #aaa;
+	content: '+ ';
+}
+
+#fighting #fighting-healthlabel:after {
+	content: "";
+	position: absolute;
+	height: 0px;
+	border-bottom: 3px solid #424242;
+	top: 0;
+	width: 100%;
+	top: 9px;
+	margin-left: 10px;
+}
+
+#fighting #fighting-debufflist {
+	position: absolute;
+	width: 300px;
+	top: 151px;
+	right: 54px;
+	height: 30px;
+}
+
+#fighting #fighting-debufflist span {
+	display: inline-block;
+	padding: 2px 5px 2px;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	color: #fff;
+	font-family: "Calisto MT", "Bookman Old Style", Bookman, "Goudy Old Style", Garamond, "Hoefler Text", "Bitstream Charter", Georgia, serif;
+	font-size: 26px;
+	background-color: rgba(122, 0, 0, 0.8);
+	text-shadow: 0px 1px 0px #b2a98f,
+             0px 7px 10px rgba(0,0,0,0.15),
+             0px 12px 2px rgba(0,0,0,0.3),
+             0px 17px 30px rgba(0,0,0,0.3);
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+}
+
+#fighting #fighting-debufflist span.fresh {
+	-webkit-animation: debuffspawn 0.3s linear;
+	animation: debuffspawn 0.3s linear;
+}
+
+#fighting #fighting-debufflist span.remove {
+	-webkit-animation: 0.2s fallupon;
+	animation: 0.2s fallupon;
+}
+
+#fighting #fighting-debufflist span.refresh {
+	-webkit-animation: damagetaken 0.2s linear;
+	animation: damagetaken 0.2s linear;
+}
+
+#fighting #fighting-debufflist span.active {
+	-webkit-animation: redflash 0.2s linear;
+	animation: redflash 0.2s linear;
+}
+
+#fighting #fighting-bufflist {
+	position: absolute;
+	top: 22px; left: 12px;
+	width: 396px;
+}
+
+#fighting-bufflist.damagetaken {
+	-webkit-animation: damagetaken 0.2s linear;
+	animation: damagetaken 0.2s linear;
+}
+
+#fighting #fighting-bufflist span {
+	display: block;
+	width: 100%;
+	font-size: 22px;
+	color: #030303;
+	font-family: "Calisto MT", "Bookman Old Style", Bookman, "Goudy Old Style", Garamond, "Hoefler Text", "Bitstream Charter", Georgia, serif;
+	margin-bottom: 8px;
+	text-align: center;
+	padding: 5px 0 5px;
+	background-color: #FDFDFD;
+	-webkit-box-shadow: 0 2px 1px #141414;
+	-moz-box-shadow: 0 2px 1px #141414;
+	text-shadow: 0px 1px 0px #b2a98f,
+             0px 7px 10px rgba(0,0,0,0.15),
+             0px 12px 2px rgba(0,0,0,0.3),
+             0px 17px 30px rgba(0,0,0,0.3);
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+}
+
+#fighting #fighting-bufflist span.fresh {
+	-webkit-animation: 0.3s debuffspawn linear; /*0.2s spawnupon */
+	animation: 0.3s debuffspawn linear; /*0.2s spawnupon */
+}
+
+#fighting #fighting-bufflist span.negative { /* Unused */
+	background-color: background-color: rgba(39, 0, 0, 0.8);
+}
+
+#fighting #fighting-bufflist span.remove {
+	-webkit-animation: 0.2s fallupon;
+	animation: 0.2s fallupon;
+}
+
+#fighting #fighting-bufflist span.active {
+	-webkit-animation: 0.2s redflash;
+	animation: 0.2s redflash;
+}
+
+#fighting #fighting-log {
+	position: absolute;
+	display: none;
+	top: 22px;
+	left: 12px;
+	padding: 10px;
+	border: 3px solid #111;
+	width: 370px;
+	color: #fff;
+	overflow-y: scroll;
+	height: 150px;
+	font-size: 14px;
+	font-family: "Calisto MT", "Bookman Old Style", Bookman, "Goudy Old Style", Garamond, "Hoefler Text", "Bitstream Charter", Georgia, serif;
+	text-shadow: 0px 1px 0px #b2a98f;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+}
+
+#fighting #fighting-log span#log-split {
+	display: block;
+	border-bottom: 2px solid #333;
+	height: 3px;
+	margin-bottom: 3px;
+}
+
+#fighting #fighting-status {
+	position: absolute;
+	left: 12px;
+	top: 170px;
+	width: 396px;
+	height: 30px;
+	overflow: hidden;
+	color: #fff;
+	text-align: center;
+	font-size: 22px;
+	font-family: "Calisto MT", "Bookman Old Style", Bookman, "Goudy Old Style", Garamond, "Hoefler Text", "Bitstream Charter", Georgia, serif;
+	text-shadow: 0px 1px 0px #B28F8F;
+}
+
+#fighting #fighting-status:after {
+	position: absolute;
+	width: 100%;
+	content: ' ';
+	border-bottom: 2px solid #fff;
+	left: 0;
+	top: 13px;
+	z-index: -10;
+	right: 0;
+}
+
+#fighting #fighting-status span {
+	background-color: #111;
+	position: absolute;
+	width: 100%;
+	padding: 0 15px 0;
+	-webkit-animation: spelleffect 0.9s linear; 
+	animation: spelleffect 0.9s linear;
+}
+
+#fighting #fighting-bar {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	height: 100px;
+	right: 0;
+	width: 100%;
+	background-color: #111;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+}
+
+#fighting #fighting-menu {
+	position: absolute;
+	left: 15px;
+	font-size: 0;
+	background-color: #222;
+	width: 456px;
+	height: 100%;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+}
+
+#fighting #fighting-secmenu {
+	position: absolute;
+	right: 15px;
+	font-size: 0;
+	background-color: #222;
+	width: 228px;
+	height: 100%;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.46);
+}
+
+#fighting #fighting-menu span, #fighting #fighting-secmenu span {
+	width: 100px;
+	position: absolute;
+	padding: 5px;
+	height: 55px;
+	line-height: 55px;
+	margin: 2px;
+	margin-top: 15px;
+	color: #fff;
+	text-align: center;
+	background-color: rgba(39, 0, 0, 0.8);
+	text-shadow: 0px 1px 0px #b2a98f, 0px 7px 10px rgba(0,0,0,0.15), 0px 12px 2px rgba(0,0,0,0.3), 0px 17px 30px rgba(0,0,0,0.3);
+	cursor: pointer;
+	font-size: 18px;
+	font-family: "Calisto MT", "Bookman Old Style", Bookman, "Goudy Old Style", Garamond, "Hoefler Text", "Bitstream Charter", Georgia, serif;
+	border-bottom: 3px solid #111;
+	-webkit-transition: background 0.2s, border 0.1s, margin 0.1s;
+	-moz-transition: background 0.2s, border 0.1s, margin 0.1s;
+	-ms-transition: background 0.2s, border 0.1s, margin 0.1s;
+	-o-transition: background 0.2s, border 0.1s, margin 0.1s;
+	transition: background 0.2s, border 0.1s, margin 0.1s;
+}
+
+#fighting-menu span div {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 100%;
+	background-color: rgba(12, 10, 61, 0.8);
+	width: 100%;
+	display: none;
+}
+
+#fighting #fighting-menu span#fighting-att2, #fighting #fighting-secmenu span#fighting-deff2 { left: 113px; }
+#fighting #fighting-menu span#fighting-att3 { left: 226px; }
+#fighting #fighting-menu span#fighting-att4 { left: 339px; }
+
+#fighting #fighting-secmenu span:after, #fighting #fighting-menu span:after {
+	position: absolute;
+	content: 'Q';
+	font-size: 24px;
+	color: rgba(255,255,255,0.1);
+	text-shadow: none;
+	bottom: -14px;
+	right: 5px;
+}
+
+#fighting #fighting-menu span#fighting-att1:after { content: 'Q'; }
+#fighting #fighting-menu span#fighting-att2:after { content: 'W'; }
+#fighting #fighting-menu span#fighting-att3:after { content: 'E'; }
+#fighting #fighting-menu span#fighting-att4:after { content: 'R'; }
+#fighting #fighting-secmenu span#fighting-deff1:after { content: 'D'; }
+#fighting #fighting-secmenu span#fighting-deff2:after { content: 'F'; }
+
+#fighting #fighting-menu span:hover, #fighting #fighting-secmenu span:hover {
+	background-color: rgba(141, 4, 4, 0.8);
+}
+
+#fighting #fighting-menu span:active, #fighting #fighting-secmenu span:active, #fighting #fighting-menu span.active, #fighting #fighting-secmenu span.active{
+	margin-top: 18px;
+	border-width: 0px;
+	background-color: rgba(141, 4, 4, 0.8);
+}
+
+#fighting span.disabled {
+	background-color: rgba(0,0,0,0.2) !important;
+	cursor: default !important;
+	color: #aaa !important;
+}
+
+#overlay {
+	background-color: #111;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+#overlay #overlay-start, #overlay #overlay-options {
+	color: #fff;
+	text-align: center;
+	font-size: 30px;
+	font-family: "Calisto MT", "Bookman Old Style", Bookman, "Goudy Old Style", Garamond, "Hoefler Text", "Bitstream Charter", Georgia, serif;
+	text-shadow: 0px 1px 0px #b2a98f, 0px 7px 10px rgba(0,0,0,0.15), 0px 12px 2px rgba(0,0,0,0.3), 0px 17px 30px rgba(0,0,0,0.3);
+	position: absolute;
+	left: 50%;
+	width: 150px;
+	top: 300px;
+	margin-left: -75px;
+	cursor: pointer;
+
+	-webkit-transition: margin 0.5s;
+	transition: margin 0.5s;
+}
+
+#overlay #overlay-options {
+	color: #fff;
+	top: 355px; width: 250px; margin-left: -125px;
+
+	-webkit-transition: margin 0.5s;
+	transition: margin 0.5s;
+}
+
+#overlay #overlay-language {
+	color: #fff;
+	word-spacing: 15px;
+	text-align: center;
+	font-size: 30px;
+	font-family: "Calisto MT", "Bookman Old Style", Bookman, "Goudy Old Style", Garamond, "Hoefler Text", "Bitstream Charter", Georgia, serif;
+	text-shadow: 0px 1px 0px #b2a98f, 0px 7px 10px rgba(0,0,0,0.15), 0px 12px 2px rgba(0,0,0,0.3), 0px 17px 30px rgba(0,0,0,0.3);
+	position: absolute;
+	text-decoration: none;
+	cursor: default;
+	left: 50%;
+	width: 500px;
+	top: 355px;
+	margin-left: 100%;
+
+	-webkit-transition: margin 0.5s;
+	transition: margin 0.5s;
+}
+
+#overlay #overlay-language span {
+	-webkit-transition: color 0.2s;
+	transition: color 0.2s;
+}
+
+
+#overlay #overlay-language span:hover {
+	cursor: pointer;
+	color: #C4C4C4;
+}
+
+#overlay #overlay-language span.active {
+	color: rgb(255, 102, 102);
+	text-shadow: 0px 1px 0px #FF5C00, 0px 7px 10px rgba(0,0,0,0.15), 0px 12px 2px rgba(0,0,0,0.3), 0px 17px 30px rgba(0,0,0,0.3);
+	cursor: default;
+}
+
+#overlay #overlay-language-current { top: 465px; cursor: default; text-decoration: underline; color: #aaa; }
+
+#overlay #overlay-start {
+	-webkit-transition: color 0.2s;
+	transition: color 0.2s;
+}
+
+#overlay #overlay-start:hover, #overlay #overlay-options:hover {
+	color: #C4C4C4;
+}
+
+#overlay #overlay-title {
+	position: absolute;
+	font-size: 130px;
+	font-family: 'True Lies';
+	color: #fff;
+	top: 50px;
+	left: 50%;
+	width: 530px;
+	margin-left: -250px;
+	cursor: default;
+	text-shadow: 0px 4px 3px rgba(0, 0, 0, 1), 0px 8px 13px rgba(0, 0, 0, 0.4), 0px 18px 23px rgba(0, 0, 0, 0.54);
+}
+
+#overlay #overlay-titlecanvas {
+	position: absolute;
+	top: 50px;
+	left: 50%;
+	margin-left: -250px;
+}
+
+#overlay.options #overlay-start.loading { color: #999; cursor: default; pointer-events: none; }
+#overlay.options #overlay-options { margin-left: -100%; }
+#overlay.options #overlay-language { margin-left: -250px  }
+#overlay.options #overlay-language-current { opacity: 1; pointer-events: auto; top: 410px; }
+
+@-webkit-keyframes noise-anim {
+  0% {
+    clip: rect(24px, 9999px, 58px, 0);
+  }
+
+  5% {
+    clip: rect(68px, 9999px, 18px, 0);
+  }
+
+  10% {
+    clip: rect(36px, 9999px, 99px, 0);
+  }
+
+  15.0% {
+    clip: rect(58px, 9999px, 62px, 0);
+  }
+
+  20% {
+    clip: rect(32px, 9999px, 38px, 0);
+  }
+
+  25% {
+    clip: rect(41px, 9999px, 4px, 0);
+  }
+
+  30.0% {
+    clip: rect(12px, 9999px, 61px, 0);
+  }
+
+  35% {
+    clip: rect(67px, 9999px, 75px, 0);
+  }
+
+  40% {
+    clip: rect(68px, 9999px, 14px, 0);
+  }
+
+  45% {
+    clip: rect(15px, 9999px, 64px, 0);
+  }
+
+  50% {
+    clip: rect(20px, 9999px, 77px, 0);
+  }
+
+  55.0% {
+    clip: rect(38px, 9999px, 20px, 0);
+  }
+
+  60.0% {
+    clip: rect(7px, 9999px, 0px, 0);
+  }
+
+  65% {
+    clip: rect(10px, 9999px, 53px, 0);
+  }
+
+  70% {
+    clip: rect(27px, 9999px, 89px, 0);
+  }
+
+  75% {
+    clip: rect(91px, 9999px, 76px, 0);
+  }
+
+  80% {
+    clip: rect(38px, 9999px, 23px, 0);
+  }
+
+  85.0% {
+    clip: rect(4px, 9999px, 49px, 0);
+  }
+
+  90% {
+    clip: rect(91px, 9999px, 59px, 0);
+  }
+
+  95% {
+    clip: rect(15px, 9999px, 46px, 0);
+  }
+
+  100% {
+    clip: rect(66px, 9999px, 58px, 0);
+  }
+}
+
+@keyframes noise-anim {
+  0% {
+    clip: rect(24px, 9999px, 58px, 0);
+  }
+
+  5% {
+    clip: rect(68px, 9999px, 18px, 0);
+  }
+
+  10% {
+    clip: rect(36px, 9999px, 99px, 0);
+  }
+
+  15.0% {
+    clip: rect(58px, 9999px, 62px, 0);
+  }
+
+  20% {
+    clip: rect(32px, 9999px, 38px, 0);
+  }
+
+  25% {
+    clip: rect(41px, 9999px, 4px, 0);
+  }
+
+  30.0% {
+    clip: rect(12px, 9999px, 61px, 0);
+  }
+
+  35% {
+    clip: rect(67px, 9999px, 75px, 0);
+  }
+
+  40% {
+    clip: rect(68px, 9999px, 14px, 0);
+  }
+
+  45% {
+    clip: rect(15px, 9999px, 64px, 0);
+  }
+
+  50% {
+    clip: rect(20px, 9999px, 77px, 0);
+  }
+
+  55.0% {
+    clip: rect(38px, 9999px, 20px, 0);
+  }
+
+  60.0% {
+    clip: rect(7px, 9999px, 0px, 0);
+  }
+
+  65% {
+    clip: rect(10px, 9999px, 53px, 0);
+  }
+
+  70% {
+    clip: rect(27px, 9999px, 89px, 0);
+  }
+
+  75% {
+    clip: rect(91px, 9999px, 76px, 0);
+  }
+
+  80% {
+    clip: rect(38px, 9999px, 23px, 0);
+  }
+
+  85.0% {
+    clip: rect(4px, 9999px, 49px, 0);
+  }
+
+  90% {
+    clip: rect(91px, 9999px, 59px, 0);
+  }
+
+  95% {
+    clip: rect(15px, 9999px, 46px, 0);
+  }
+
+  100% {
+    clip: rect(66px, 9999px, 58px, 0);
+  }
+}
+
+#overlay-title:after {
+  content: attr(data-text);
+  position: absolute;
+  left: 2px;
+  text-shadow: -1px 0 red;
+  top: 0;
+  color: white;
+  background: rgba(0,0,0,0);
+  overflow: hidden;
+  clip: rect(0, 900px, 0, 0);
+  -webkit-animation: noise-anim 2s infinite linear alternate-reverse;
+  animation: noise-anim 2s infinite linear alternate-reverse;
+}
+
+@-webkit-keyframes noise-anim-2 {
+  0% {
+    clip: rect(27px, 9999px, 13px, 0);
+  }
+
+  5% {
+    clip: rect(91px, 9999px, 18px, 0);
+  }
+
+  10% {
+    clip: rect(22px, 9999px, 52px, 0);
+  }
+
+  15.0% {
+    clip: rect(32px, 9999px, 46px, 0);
+  }
+
+  20% {
+    clip: rect(27px, 9999px, 83px, 0);
+  }
+
+  25% {
+    clip: rect(72px, 9999px, 43px, 0);
+  }
+
+  30.0% {
+    clip: rect(14px, 9999px, 13px, 0);
+  }
+
+  35% {
+    clip: rect(32px, 9999px, 75px, 0);
+  }
+
+  40% {
+    clip: rect(43px, 9999px, 4px, 0);
+  }
+
+  45% {
+    clip: rect(34px, 9999px, 80px, 0);
+  }
+
+  50% {
+    clip: rect(90px, 9999px, 76px, 0);
+  }
+
+  55.0% {
+    clip: rect(89px, 9999px, 86px, 0);
+  }
+
+  60.0% {
+    clip: rect(28px, 9999px, 85px, 0);
+  }
+
+  65% {
+    clip: rect(61px, 9999px, 9px, 0);
+  }
+
+  70% {
+    clip: rect(67px, 9999px, 38px, 0);
+  }
+
+  75% {
+    clip: rect(18px, 9999px, 26px, 0);
+  }
+
+  80% {
+    clip: rect(49px, 9999px, 24px, 0);
+  }
+
+  85.0% {
+    clip: rect(2px, 9999px, 57px, 0);
+  }
+
+  90% {
+    clip: rect(77px, 9999px, 41px, 0);
+  }
+
+  95% {
+    clip: rect(26px, 9999px, 95px, 0);
+  }
+
+  100% {
+    clip: rect(92px, 9999px, 36px, 0);
+  }
+}
+
+@keyframes noise-anim-2 {
+  0% {
+    clip: rect(27px, 9999px, 13px, 0);
+  }
+
+  5% {
+    clip: rect(91px, 9999px, 18px, 0);
+  }
+
+  10% {
+    clip: rect(22px, 9999px, 52px, 0);
+  }
+
+  15.0% {
+    clip: rect(32px, 9999px, 46px, 0);
+  }
+
+  20% {
+    clip: rect(27px, 9999px, 83px, 0);
+  }
+
+  25% {
+    clip: rect(72px, 9999px, 43px, 0);
+  }
+
+  30.0% {
+    clip: rect(14px, 9999px, 13px, 0);
+  }
+
+  35% {
+    clip: rect(32px, 9999px, 75px, 0);
+  }
+
+  40% {
+    clip: rect(43px, 9999px, 4px, 0);
+  }
+
+  45% {
+    clip: rect(34px, 9999px, 80px, 0);
+  }
+
+  50% {
+    clip: rect(90px, 9999px, 76px, 0);
+  }
+
+  55.0% {
+    clip: rect(89px, 9999px, 86px, 0);
+  }
+
+  60.0% {
+    clip: rect(28px, 9999px, 85px, 0);
+  }
+
+  65% {
+    clip: rect(61px, 9999px, 9px, 0);
+  }
+
+  70% {
+    clip: rect(67px, 9999px, 38px, 0);
+  }
+
+  75% {
+    clip: rect(18px, 9999px, 26px, 0);
+  }
+
+  80% {
+    clip: rect(49px, 9999px, 24px, 0);
+  }
+
+  85.0% {
+    clip: rect(2px, 9999px, 57px, 0);
+  }
+
+  90% {
+    clip: rect(77px, 9999px, 41px, 0);
+  }
+
+  95% {
+    clip: rect(26px, 9999px, 95px, 0);
+  }
+
+  100% {
+    clip: rect(92px, 9999px, 36px, 0);
+  }
+}
+
+#overlay-title:before {
+  content: attr(data-text);
+  position: absolute;
+  left: -2px;
+  text-shadow: 1px 0 blue;
+  top: 0;
+  color: white;
+  background: rgba(0,0,0,0);
+  overflow: hidden;
+  clip: rect(0, 900px, 0, 0);
+  -webkit-animation: noise-anim-2 3s infinite linear alternate-reverse;
+  animation: noise-anim-2 3s infinite linear alternate-reverse;
+}
+
+*.hidden {
+	opacity: 0 !important;
+	pointer-events: none;
+}

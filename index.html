@@ -1,0 +1,1433 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>CRAWL</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.1.min.js"></script><!--  jQuery -->
+	<!--<script type="text/javascript" src="jquery.js"></script> Offline Backup-->
+	<script type="text/javascript" src="crawl.en.js"></script> <!-- Language Pack -->
+	<script type="text/javascript">
+		var globalAlphaRestrictions = false;
+		//WIP
+
+
+		var enemies = new Array();
+
+	  //enemies[x] = new Array('Name', Health, Behaviour, Base Damage, Effect, Item Pool);
+		enemies[0] = new Array(lang.enemy0, 4, 0, 0.5, 0, 0);
+		enemies[1] = new Array(lang.enemy1, 3, 0, 0.5, 0, 0);
+		enemies[2] = new Array(lang.enemy2, 3, 0, 0.5, 2, 0);
+		enemies[3] = new Array(lang.enemy3, 3, 0, 0.5, 0, 0);
+		enemies[4] = new Array(lang.enemy4, 3, 0, 0.5, 1, 0);
+		enemies[5] = new Array(lang.enemy5, 4, 0, 1, 0, 0);
+
+		enemies[6] = new Array(lang.enemy6, 5, 1, 1, 0, 0);
+		enemies[7] = new Array(lang.enemy7, 8, 2, 0.5, 0, 0);
+		enemies[8] = new Array(lang.enemy8, 3, 1, 1.5, 0, 0);
+		enemies[9] = new Array(lang.enemy9, 4, 0, 0.5, 0, 0);
+		enemies[10] = new Array(lang.enemy10, 4, 0, 1, 0, 0);
+		enemies[11] = new Array(lang.enemy11, 4, 2, 1.5, 0, 0);
+		enemies[12] = new Array(lang.enemy12, 5, 2, 1, 0, 0);
+		enemies[13] = new Array(lang.enemy13, 8, 2, 1, 0, 0);
+
+		enemies[99] = new Array(lang.enemy99, 40, 2, 0, 0, 0);
+
+		var enemyBehaviour = new Array();
+
+	  //enemyBehaviour[x] = new Array(Spell 1, Spell 2, Spell 3, Spell 4);
+	  	enemyBehaviour[0] = new Array(0, 1, 2, 4); //Nether Animal
+	  	enemyBehaviour[1] = new Array(1, 2, 5, 6); //Vicious Animal
+	  	enemyBehaviour[2] = new Array(8, 3, 6, 1); //Ghost
+
+
+		var enemySpells = new Array();
+
+	  //enemySpells[x] = new Array('Name', Damage multiplier, Heal multiplier, Special, Special ID);
+	  	enemySpells[0] = new Array(lang.enemySpell0, 1, 0, false); //Scratch
+	  	enemySpells[1] = new Array(lang.enemySpell1, 0.5, 0.5, false); //Bite
+	  	enemySpells[2] = new Array(lang.enemySpell2, 0, 0, true, 0); //Chargeup
+	  	enemySpells[3] = new Array(lang.enemySpell3, 0, 1, false); //Heal
+	  	enemySpells[4] = new Array(lang.enemySpell4, 0, 0, false); //Flinch
+	  	enemySpells[5] = new Array(lang.enemySpell5, 1.5, 0, false); //Suffocate
+	  	enemySpells[6] = new Array(lang.enemySpell6, 0.5, 0, true, 1); //Envenom
+	  	enemySpells[7] = new Array(lang.enemySpell7, 0.5, 0, true, 2); //Wound
+	  	enemySpells[8] = new Array(lang.enemySpell8, 0, 0, true, 3); //Curse
+
+	  //items[x] = new Array('Name', Typ, Stat, Value, Spell, ID);
+	  //Typ: 0 = Upgrade, 1 = G-Item, 2 = Spelllearn, 3 = Trinket
+
+
+		var upgradeItems = new Array();
+
+	  //upgradeItems[x] = new Array(lang.upgradeX, Stat, Value, special);
+		upgradeItems[0] = new Array(lang.upgrade0, 1, 1, false); //Versorgungspaket
+		upgradeItems[1] = new Array(lang.upgrade1, 2, 1, false); //Klinge
+		upgradeItems[2] = new Array(lang.upgrade2, 1, 1, false); //Dunkelpelz
+		upgradeItems[3] = new Array(lang.upgrade3, 0, 1, true); //Schlagring
+		upgradeItems[4] = new Array(lang.upgrade4, 1, 4, false); //Schädelhelm
+		upgradeItems[5] = new Array(lang.upgrade5, 1, 2, false); //Notration
+
+		var gItems = new Array(lang.gItem0, lang.gItem1, lang.gItem2, lang.gItem3);
+		//These dont need any values. All of them are too unique.
+
+		var trinketItems = new Array(lang.trinket0, lang.trinket1);
+		//The same goes for these.
+
+		var spellItems = new Array();
+
+	  //spellItems[x] = new Array(lang.spellItemX, spell id);
+		spellItems[0] = new Array(lang.spellItem0, 6); //Rosttoxin > Verwunden
+		spellItems[1] = new Array(lang.spellItem1, 1); //Brett > Block
+		spellItems[2] = new Array(lang.spellItem2, 2); //Stahlhammer > Bruch
+		//XXXspellItems[3] = new Array(lang.spellItem3, 8); //Gasbrenner > Verbrennen
+		//XXXspellItems[4] = new Array(lang.spellItem4, 9); //Stacheldrahtkeule > Entstellen
+		//XXXspellItems[5] = new Array(lang.spellItem5, 10); //HV-Batterie > Schock
+		//XXXspellItems[6] = new Array(lang.spellItem6, 11); //Hochfrequenzmembran > Schallwelle
+		//XXXspellItems[7] = new Array(lang.spellItem7, 12); //HV-Generator > Aufladung
+		//XXXspellItems[8] = new Array(lang.spellItem8, 7); //Leuchtpistole > Blenden
+
+		var consumables = new Array();
+
+	  //consumables[x] = new Array(lang.consumableX, inventoryID, special)
+		consumables[0] = new Array(lang.consumable0, 0, 0); //Key
+		consumables[1] = new Array(lang.consumable1, 1, 0); //Potion
+		consumables[2] = new Array(lang.consumable2, 2, 0); //Painkiller SPK
+		consumables[3] = new Array(lang.consumable3, 1, 0); //Injection (Höhlen)
+		consumables[4] = new Array(lang.consumable4, 2, 0); //Morphium (Termina)
+
+
+		//Spell database
+		var spells = new Array();
+
+	  //spells[x] = new Array(lang.spellx, Damage multiplier, Heal, Type (bis hierhin erforderlich!), Debuff ID, Buff ID);
+	  //Type: 0 = Physical, 1 = Bio, 2 = Fire, 3 = Tesla, 4 = Unique
+	  //Stat: playerDamage = 0, playerEvasion = 1
+		spells[0] = new Array(lang.spell0, 1, 0, 0); //Schlag
+		spells[1] = new Array(lang.spell1, 0, 0, 4, 0, 1); //Block
+		spells[2] = new Array(lang.spell2, 0.5, 0, 4, 2); //Bruch
+		spells[6] = new Array(lang.spell6, 0.5, 0, 1, 1); //Verwunden
+		spells[7] = new Array(lang.spell7, 1, 0, 2, 3); //Blenden
+		spells[8] = new Array(lang.spell8, 0.5, 0, 2, 4); //Verbrennen
+		spells[9] = new Array(lang.spell9, 1, 0, 0, 5); //Entstellen
+		spells[10] = new Array(lang.spell10, 2, 0, 3); //Schock
+		spells[11] = new Array(lang.spell11, 0, 0, 4, 6); //Schallwelle
+		spells[12] = new Array(lang.spell12, 3, 0, 3); //Aufladung
+
+		var debuffs = new Array();
+		//Stores DoTs and other debuffs. Only DoTs and weaknesses in values.
+
+	  //debuffs[X] = new Array('Name', DoT-Duration, DoT-Damage, Weakness-type);
+		debuffs[0] = new Array(lang.debuff0, 0, 0, false); 
+		debuffs[1] = new Array(lang.debuff1, 4, 0.5, false); //0.5 Dmg * 3 Runden
+		debuffs[2] = new Array(lang.debuff2, 4, 0, 0); //Physical Weakness
+		debuffs[3] = new Array(lang.debuff3, 0, 0, false); //Special non-value debuff
+		debuffs[4] = new Array(lang.debuff4, 4, 1, 1); //1 Dmg * 3 Runden + Bio weakness
+		debuffs[5] = new Array(lang.debuff5, 3, 2, 3); //2 Dmg * 2 Runden + Tesla weakness
+		debuffs[6] = new Array(lang.debuff6, 0, 0, false);
+
+		var buffs = new Array();
+		//Stores HoTs, stat increases and other buffs. Only HoTs and stats in values.
+
+	  //buffs[X] = new Array('Name', HoT-Duration, HoT-Damage, Stat-type, Stat-value, Stat-Duration);
+		buffs[0] = new Array(lang.buff0, 0, 0, false); 
+		buffs[1] = new Array(lang.buff1, 0, 0, 1, 100, 1); //100% Evasion (id 1) for one round
+		buffs[2] = new Array(lang.buff2, 0, 0, 2, 1, 2); //1 Damage (id 2) for one round
+
+		//spellBook stores the spells currently learned.
+		var spellBook = new Array();
+
+		//spellReady 
+		var spellReady = new Array(true, true, true, true);
+
+	  //var inventory = new Array(Keys, Potions, Painkillers, Unused)
+		var inventory = new Array(0, 0, 0, 0);
+
+		var roomStorage = new Array();
+
+		//Storage for buffs
+		var playerBuffs = new Array();
+
+		var dotArray = new Array();
+
+		var showPainkillerTip = true;
+		var floorNumber = 0;
+		var floorDifficulty = 0;
+		var floorNameNumber = 0;
+		var floorName = new Array(lang.floorName0, lang.floorName1, lang.floorName2, lang.floorName3, lang.floorName4, lang.floorName5, lang.floorName6);
+
+		var chamberAmount = 0;
+		var positionAssociated = new Array();
+		var currentPosition = 25;
+		var maxHealth = 9;
+		var currentHealth = 1;
+		var playerDamage = 1;
+		var playerDamageBuff = 0;
+		var playerEvasion = 0;
+		var playerEvasionBuff = 0;
+		var initialConnections = 0;
+		var freeToGo = false;
+		var originDirection = 0;
+		var fightInterval;
+
+		//Fight Variables
+		var playerReady;
+		var fightName;
+		var fightHealth;
+		var fightBehaviour;
+		var fightMaxHealth;
+		var fightDamage;
+		var fightDamageBuff;
+		var fightEffect;
+		var fightItemPool;
+		var itemText;
+
+
+		//Room Block Border Enforcement
+		var roomBlockTop = new Array(1,2,3,4,5,6,7); 
+		var roomBlockRight = new Array(7,14,21,28,35,42,49);
+		var roomBlockBot = new Array(43,44,45,46,47,48,49); 
+		var roomBlockLeft = new Array(1,8,15,22,29,36,43);
+
+		function createFloor() {
+			//Roll the amount of chambers on the floor
+			var roomAmount = getRandomInt(8,11);
+
+			//Add the first room
+			roomStorage[0] = new Object();
+			roomStorage[0][0] = 25; //Place ID. 25 is the middle.
+			roomStorage[0][1] = 0; //Type ID. 0 is empty.
+			roomStorage[0][2] = true; //Cleared.
+			roomStorage[0][3] = lang.roomEmpty; //Clear Message
+			positionAssociated[25] = 0; //Save the room position
+			$('.idbox:nth-of-type(25)').addClass('focus visited');
+
+			floorNumber++;
+			floorDifficulty++;
+
+			if (floorDifficulty === 6 && globalAlphaRestrictions === true) { gameOver(true); };
+
+			if (floorNumber == 4) {
+				floorNumber = 1;
+				floorNameNumber++;
+			};
+
+			$('#floortitle').html(floorName[floorNameNumber] + ' ' + romanize(floorNumber));
+
+			chamberAmount++;
+			roomAmount--;
+
+			initialConnections = getRandomInt(2,3);
+
+			for (var i = initialConnections - 1; i >= 0; i--) {
+				//Create the new room
+				roomStorage[chamberAmount] = new Object();
+
+				//Check if room already exists. Three tries if he does
+				var thisRoomPosition = newPosition(25, getRandomInt(1,4));
+				if (!checkPosition(thisRoomPosition)) {
+					roomStorage[chamberAmount][0] = thisRoomPosition;
+				}
+				else {
+					thisRoomPosition = newPosition(25, getRandomInt(1,4));
+					if (!checkPosition(thisRoomPosition)) {
+						roomStorage[chamberAmount][0] = thisRoomPosition;
+					}
+					else {
+						thisRoomPosition = newPosition(25, getRandomInt(1,4));
+						if (!checkPosition(thisRoomPosition)) {
+							roomStorage[chamberAmount][0] = thisRoomPosition;
+						}
+						else { break; } //This is pretty unlikely to happen. findNewRoom() glitches here.
+					}
+				}
+				
+				roomStorage[chamberAmount][1] = 3; //All of the first rooms are enemy rooms.
+				roomStorage[chamberAmount][2] = false; //They are not cleared
+				positionAssociated[roomStorage[chamberAmount][0]] = chamberAmount;
+				chamberAmount++;
+			};
+
+			var chambersLeft = roomAmount - chamberAmount;
+
+			for (var i = chambersLeft - 3; i >= 0; i--) {
+				//Create the new room
+				roomStorage[chamberAmount] = new Object();
+
+				roomStorage[chamberAmount][0] = findNewRoom();
+				roomStorage[chamberAmount][1] = getRandomInt(1,7); //Relic Rooms, Fireplaces and Item rooms are special
+				roomStorage[chamberAmount][2] = false;
+				positionAssociated[roomStorage[chamberAmount][0]] = chamberAmount;
+				chamberAmount++;
+			};
+
+			//Create the Firplace
+			roomStorage[chamberAmount] = new Object();
+			roomStorage[chamberAmount][0] = findNewRoom();
+			roomStorage[chamberAmount][1] = 9;
+			roomStorage[chamberAmount][2] = false;
+			positionAssociated[roomStorage[chamberAmount][0]] = chamberAmount;
+			chamberAmount++;
+
+			//Create the Item room
+			roomStorage[chamberAmount] = new Object();
+			roomStorage[chamberAmount][0] = findNewRoom();
+			roomStorage[chamberAmount][1] = 10;
+			roomStorage[chamberAmount][2] = false;
+			positionAssociated[roomStorage[chamberAmount][0]] = chamberAmount;
+			chamberAmount++;
+
+			//Roll if Relic Room exists
+			if (getRandomInt(0,5) == 5) {
+				roomStorage[chamberAmount] = new Object();
+				roomStorage[chamberAmount][0] = findNewRoom();
+				roomStorage[chamberAmount][1] = 8;
+				roomStorage[chamberAmount][2] = false;
+				positionAssociated[roomStorage[chamberAmount][0]] = chamberAmount;
+				chamberAmount++;
+			};
+		}
+
+		function prepareNextFloor() {
+			roomStorage[0][3] = lang.roomEmpty + lang.roomEmptyDoor; //Set the new text and create the trigger.
+			roomStorage[0][1] = 11; //Set the new type to 11 (room with trapdoor, unique)
+			roomStorage[0][2] = false; //Set it to uncleared.
+			$('.idbox:nth-of-type(25)').addClass('alert'); //Place the ping in the room
+		}
+
+		function checkFloorFinish(forced, info) {
+			if(forced != true) {
+				for (var i = roomStorage.length - 1; i >= 0; i--) {
+					if(roomStorage[i][2] == false) { 
+						if(roomStorage[i][1] != 0 && roomStorage[i][1] != 7 && roomStorage[i][1] != 8 && roomStorage[i][1] != 9 && roomStorage[i][1] != 11) {
+							return false; //(Tolerance for empty room, locked chest, fireplace and relic shrine. Relic shrine will be removed once finished.)
+						} 
+					} 
+				};
+			}
+
+			if (info === true) { return true; };
+
+			//Go to the originally empty room. It's always 25.
+			currentPosition = 25; 
+			freeToGo = false;
+
+			$('#idcontainer, #floortitle').addClass('hidden');
+
+			//Message the user.
+			if (floorDifficulty == (2-1)) { sMessage(lang.newFloor1); };
+			if (floorDifficulty == (3-1)) { sMessage(lang.newFloor2); };
+			if (floorDifficulty == (4-1)) { sMessage(lang.newFloor3); };
+			if (floorDifficulty >= (5-1)) { sMessage(lang.newFloor4); };
+
+			setTimeout(function(){
+				//Reset the map
+				$('.present').removeClass('present visited alert');
+				$('.focus').removeClass('focus visited alert');
+
+				//Mark the origin point
+				var target = ".idbox:nth-of-type(" + currentPosition + ")";
+				$(target).addClass('focus present');	
+
+				//Empty the roomstorage. Get everything ready for a new floor.
+				roomStorage.length = 0;
+				chamberAmount = 0;
+				positionAssociated.length = 0;
+
+				//Bring it to life.
+				createFloor();
+
+				//Draw the map around the first room.
+				var foundConnections = findProximity(currentPosition);
+				for (var i = foundConnections.length - 1; i >= 0; i--) {
+					var target = ".idbox:nth-of-type(" + foundConnections[i] + ")";
+					$(target).addClass('focus');
+				};
+			}, 500);
+			
+			setTimeout(function(){
+				$('#idcontainer, #floortitle').removeClass('hidden');
+				freeToGo = true;
+			}, 800);
+
+			return true;
+		}
+
+		function getRandomInt(min, max) {
+		    return Math.floor(Math.random() * (max - min + 1)) + min;
+		}
+
+		function newPosition(current, direction) {
+			if (direction == 1 && $.inArray(current, roomBlockTop) != -1) { return false; };
+			if (direction == 2 && $.inArray(current, roomBlockRight) != -1) { return false; };
+			if (direction == 3 && $.inArray(current, roomBlockBot) != -1) { return false; };
+			if (direction == 4 && $.inArray(current, roomBlockLeft) != -1) { return false; };
+			if (direction == 1) { var newPosition = (current - 7); };
+			if (direction == 2) { var newPosition = (current + 1); };
+			if (direction == 3) { var newPosition = (current + 7); };
+			if (direction == 4) { var newPosition = (current - 1); };
+			if (newPosition < 1 || newPosition > 49) { return false }
+			else { return newPosition; }
+		}
+
+		function checkPosition(current) {
+			var e = 0;
+			for (var i = chamberAmount - 1; i >= 0; i--) {
+				if (roomStorage[e][0] == current) { return true; }
+				e++;
+			};
+			return false;
+		}
+
+		function moveTo(direction) {
+			if (freeToGo) {
+				if (checkPosition(newPosition(currentPosition, direction))) {
+
+					if(direction == 1) {originDirection = 3;};
+					if(direction == 2) {originDirection = 4;};
+					if(direction == 3) {originDirection = 1;};
+					if(direction == 4) {originDirection = 2;};
+
+					currentPosition = newPosition(currentPosition, direction);
+					//$('#hud-currentroom').text(currentPosition);
+					//$('#hud-currenttype').text(roomStorage[positionAssociated[currentPosition]][1]);
+					var foundConnections = findProximity(currentPosition);
+					for (var i = foundConnections.length - 1; i >= 0; i--) {
+						var target = ".idbox:nth-of-type(" + foundConnections[i] + ")";
+						$(target).addClass('focus');
+					};
+					$('#hud-currentconnections').text(foundConnections.length);
+					$('.present').removeClass('present');
+					openRoom(currentPosition);
+				};
+				var target = ".idbox:nth-of-type(" + currentPosition + ")";
+
+				$(target).addClass('present');				
+			};
+		}
+
+		function findNewRoom() {
+			var possiblePosition;
+
+			for (var i = 20; i >= 0; i--) {
+				possiblePosition = newPosition(roomStorage[getRandomInt(1,chamberAmount)][0], getRandomInt(1,4));
+				if (!checkPosition(possiblePosition)) {
+					if (!isNaN(possiblePosition)) {
+						return possiblePosition;
+					};
+				};
+			};
+		}
+
+		function findProximity(room) {
+			var nearRooms = new Array();
+			var nearRoomAmount = 0;
+			if (checkPosition(newPosition(room, 1))) {
+				nearRooms[nearRoomAmount] = newPosition(room, 1);
+				nearRoomAmount++;
+			};
+			if (checkPosition(newPosition(room, 2))) {
+				nearRooms[nearRoomAmount] = newPosition(room, 2);
+				nearRoomAmount++;
+			};
+			if (checkPosition(newPosition(room, 3))) {
+				nearRooms[nearRoomAmount] = newPosition(room, 3);
+				nearRoomAmount++;
+			};
+			if (checkPosition(newPosition(room, 4))) {
+				nearRooms[nearRoomAmount] = newPosition(room, 4);
+				nearRoomAmount++;
+			};
+			return nearRooms;
+		}
+
+		function drawHealth(heal) {
+			if (heal == true) {
+				$('#hud-healthbar').addClass('healthbarHeal');
+				setTimeout(function(){ $('#hud-healthbar').removeClass();}, 150);
+			} else if (heal == false) {
+				$('#hud-healthbar').addClass('healthbarDmg');
+				setTimeout(function(){ $('#hud-healthbar').removeClass();}, 150);
+			};
+			if (currentHealth < 0) { currentHealth = 0; };
+			var healthRatio = (currentHealth / maxHealth) * 100;
+			if (currentHealth <= 0) { gameOver(); };
+			$('#hud-healthbarmeter').css('width', healthRatio + '%');
+			$('#hud-healthlabel').text(currentHealth.toFixed(2) + ' / ' + maxHealth)
+		}
+
+		function drawSpells() {
+			if (typeof spellBook[0] != 'undefined') {$('#fighting-att1').removeClass().html('<div></div>' + spellBook[0][0]);}
+			if (typeof spellBook[1] != 'undefined') {$('#fighting-att2').removeClass().html('<div></div>' + spellBook[1][0]);}
+			if (typeof spellBook[2] != 'undefined') {$('#fighting-att3').removeClass().html('<div></div>' + spellBook[2][0]);}
+			if (typeof spellBook[3] != 'undefined') {$('#fighting-att4').removeClass().html('<div></div>' + spellBook[3][0]);}
+		}
+
+		function drawInventory() {
+			$('#hud-keys').text(inventory[0]);
+			$('#hud-spk').text(inventory[2]);
+			$('#hud-potion').text(inventory[1]);
+		}
+
+		function introHandler(step) {
+			var textO = $('#text-main');
+			if (step == 0) {
+				$('#overlay').fadeOut('400', function() {
+					glitcher = 0; //Kill the glitchy title
+					$('#overlay-titlecanvas').remove();
+				});
+				setTimeout(function(){
+					introHandler(1);
+				}, 1500)
+			};
+
+			if (step == 1) {
+				
+				$('#fighting-button').html(lang.fightWon);
+				$('#fighting-deff1').html(lang.fightFlee);
+				$('#fighting-deff2').html(lang.fightPotion);
+				drawSpells();
+				textO.html(lang.intro0).fadeIn('900');
+				setTimeout(function(){textO.fadeOut('400');}, 3000);
+				setTimeout(function(){textO.html(lang.intro1);}, 3500);
+				setTimeout(function(){textO.fadeIn('900');}, 3600);
+				setTimeout(function(){textO.fadeOut('400');}, 6600);
+				setTimeout(function(){textO.html(lang.intro2);}, 7100);
+				setTimeout(function(){textO.fadeIn('900');}, 7200);
+				setTimeout(function(){textO.fadeOut('400');}, 10200);
+				setTimeout(function(){textO.html(lang.intro3);$('#text-trigger1').click(function(){ $('#text-trigger1').unbind(); introHandler(2); });}, 10700);
+				setTimeout(function(){textO.fadeIn('900'); $('#hud').removeClass();}, 10800);
+				setTimeout(function(){drawHealth()}, 11300);
+			}
+			if (step == 2) {
+				textO.fadeOut('400');
+				setTimeout(function(){textO.html(lang.intro4);}, 500);
+				setTimeout(function(){textO.fadeIn('900');}, 600);
+				setTimeout(function(){currentHealth = 8; drawHealth(true); }, 1700);
+				setTimeout(function(){textO.fadeOut('400');}, 3600);
+				setTimeout(function(){
+					var foundConnections = findProximity(currentPosition);
+					textO.html(lang.intro5a + foundConnections.length + lang.intro5b);
+				}, 4100);
+				setTimeout(function(){textO.fadeIn('900'); $('#idcontainer, #floortitle').removeClass(); freeToGo = true; }, 4200);
+			};
+
+		}
+
+		function openRoom(room) {
+			if (roomStorage[positionAssociated[currentPosition]][2] == true) { 
+				fastMessage(roomStorage[positionAssociated[currentPosition]][3]);
+				return;
+			}; //If the room is cleared already, skip all of this
+
+			freeToGo = false; //Lockdown movement
+			var currentType = roomStorage[positionAssociated[currentPosition]][1]; //Gather type
+
+			if (currentType > 0 && currentType < 6) { //Enemy Room
+				var chosenEnemy = getRandomInt(0,5);
+				if (floorDifficulty >= 4) { chosenEnemy = getRandomInt(0,13)};
+				sMessage('<br>' + enemies[chosenEnemy][0] + lang.enemyStart);
+				startFight(chosenEnemy);
+			};
+			if (currentType == 6) { //Chest Room
+				sMessage(lang.roomChest);
+				setTimeout(function(){ $('#text-loader2').addClass('loading'); }, 800);
+				setTimeout(function(){itemText = addLoot(1, false); sMessage(lang.roomChestUnlocked + itemText); freeToGo = true; if (checkFloorFinish(false, true)) { prepareNextFloor(); };},1400);
+				roomStorage[positionAssociated[currentPosition]][3] = lang.roomChestUnlocked;
+				roomStorage[positionAssociated[currentPosition]][2] = true;
+				var target = ".idbox:nth-of-type(" + currentPosition + ")";
+				$(target).addClass('visited');
+				
+				
+			};
+			if (currentType == 7) { //Locked Chest Room
+				if (inventory[0] >= 1) { //If keys are existant
+					sMessage(lang.roomChestLockedOption);
+					setTimeout(function(){$('#text-trigger1').click(function(){
+						inventory[0]--; drawInventory();
+						itemText = addLoot(1, false);
+						//console.log(itemText + ' rolled!');
+						sMessage(lang.roomChestUnlocked + itemText);
+						roomStorage[positionAssociated[currentPosition]][3] = lang.roomChestUnlocked;
+						roomStorage[positionAssociated[currentPosition]][2] = true;
+						var target = ".idbox:nth-of-type(" + currentPosition + ")";
+						$(target).addClass('visited');
+						$('#text-trigger1').unbind();
+					});}, 800);
+				}
+				else { sMessage(lang.roomChestLocked); };
+				var target = ".idbox:nth-of-type(" + currentPosition + ")";
+				$(target).addClass('visited');
+				freeToGo = true;
+			};
+			if (currentType == 8) { //Relic Room
+				sMessage(lang.roomRelic);
+				freeToGo = true;
+			};
+			if (currentType == 9) { //Fireplace
+				if (currentHealth >= maxHealth) { 
+					currentHealth = maxHealth;
+					drawHealth();
+					sMessage(lang.roomFire);
+					freeToGo = true;
+					var target = ".idbox:nth-of-type(" + currentPosition + ")";
+					$(target).addClass('visited');
+					return;
+				}
+				sMessage(lang.roomFireNow);
+				setTimeout(function(){ $('#text-loader').addClass('loading'); }, 800);
+				setTimeout(function(){
+					currentHealth = currentHealth + (maxHealth / 4);
+					if (currentHealth > maxHealth) { currentHealth = maxHealth; };
+					drawHealth(true);
+					roomStorage[positionAssociated[currentPosition]][2] = true;
+					roomStorage[positionAssociated[currentPosition]][3] = lang.roomFireDown;
+					sMessage(lang.roomFireDown);
+					var target = ".idbox:nth-of-type(" + currentPosition + ")";
+					$(target).addClass('visited');
+					freeToGo = true;
+					var target = ".idbox:nth-of-type(" + currentPosition + ")";
+					$(target).addClass('visited');
+				}, 1400);
+
+				
+			};
+			if (currentType == 10) { //Item Room
+				sMessage(lang.roomItem);
+				setTimeout(function(){ $('#text-loader2').addClass('loading'); }, 800);
+				setTimeout(function(){
+					itemText = addLoot(2, false);
+					//console.log(itemText + ' rolled!');
+					sMessage(lang.roomItemFound + itemText);
+					freeToGo = true;
+					roomStorage[positionAssociated[currentPosition]][2] = true;
+					roomStorage[positionAssociated[currentPosition]][3] = lang.roomItemDone;
+					var target = ".idbox:nth-of-type(" + currentPosition + ")";
+					$(target).addClass('visited');
+					if (checkFloorFinish(false, true)) { prepareNextFloor(); };
+				}, 1400);
+			};
+			if (currentType == 11) {//Empty Room with Trapdoor
+				fastMessage(roomStorage[0][3]);
+				setTimeout(function(){$('#text-trigger1').click(function(){
+					checkFloorFinish(); //console.log('checkFloorFinish()');
+				});},200);
+				freeToGo = true;
+			};
+		}
+
+		function startFight(enemyID) {
+			playerReady = true;
+			itemText = ' ';
+
+			//Switch Views
+			$('#text-main').addClass('hidden');
+			$('#fighting').removeClass();
+
+			//Gather info
+			//var enemies[x] = new Array('Name', Health, Attackspeed, Damage, Effect);
+			fightName = enemies[enemyID][0];
+			//console.log('Fight started vs ' + fightName);
+			fightHealth = enemies[enemyID][1];
+
+			playerDamageBuff = 0;
+			
+			fightDamage = enemies[enemyID][3];
+			fightDamageBuff = 0;
+			fightEffect = enemies[enemyID][4];
+			fightItemPool = enemies[enemyID][5];
+			fightBehaviour = enemyBehaviour[enemies[enemyID][2]];
+			dotArray.length = 0; //Reset debuffs
+
+			//Apply scales
+			fightDamage = fightDamage + Math.floor(floorDifficulty / 4);
+			if (fightDamage > (enemies[enemyID][3] * 15)) {
+				fightDamage = enemies[enemyID][3];
+				//console.log('Damage Cap applied');
+			};
+			//console.log(fightName + ' has ' + fightDamage + ' Damage');
+
+			
+
+			fightHealth = fightHealth + (Math.floor(floorDifficulty / 3) * 1.5);
+			fightMaxHealth = fightHealth;
+			//console.log(fightName + ' has ' + fightHealth + ' Health');
+
+
+
+			$('#fighting-healthbarmeter').css('width', '100%');
+			$('#fighting-healthlabel').text(fightHealth + ' / ' + fightMaxHealth);
+			$('#fighting-name').text(fightName);
+
+			//Set player attack listener
+			$('#fighting-att1').click(function(){ if(playerReady == false) {return;}; useSpell(0); });
+			$('#fighting-att2').click(function(){ if(playerReady == false) {return;}; useSpell(1); });
+			$('#fighting-att3').click(function(){ if(playerReady == false) {return;}; useSpell(2); });
+			$('#fighting-att4').click(function(){ if(playerReady == false) {return;}; useSpell(3); });
+
+			//Set player flee listener
+			$('#fighting-deff1').click(function() {
+				if(playerReady == false) {return;};
+				currentHealth = currentHealth - fightDamage; //Always take one instance of damage
+				if (getRandomInt(1,10) > 3) { //40% chance
+					//Flee from the fight
+					clearInterval(fightInterval); //Quit the fighting mechanics
+					$('#fighting-att1, #fighting-deff1').unbind();
+					$('#fighting').addClass('hidden');
+					$('#fighting-button').fadeOut('400', function() {
+						$('#fighting-name').removeClass('dead');
+					});
+					freeToGo = true;
+					moveTo(originDirection);
+					$('#text-main').removeClass();
+				}
+				drawHealth();
+
+			});
+		}
+
+		function useSPK() {
+			if (inventory[2] >= 1) {
+				currentHealth = currentHealth + (maxHealth / 8);
+				drawHealth(true);
+				inventory[2]--;
+				drawInventory();
+				if (currentHealth >= maxHealth) {
+					currentHealth = maxHealth;
+					drawHealth();
+				};
+			};
+		}
+
+		function useSpell(i) {
+			//spells[x] = new Array(lang.spellx, Damage multiplier, Heal, Type (bis hierhin erforderlich!), Debuff ID, Buff ID);
+
+			//check if Spell exists
+			if (typeof spellBook[i] == 'undefined') { return; };
+
+			//Gather Spell
+			var usedSpell = spellBook[i];
+			var effectiveDamage = 0;
+			var effectiveMessage = '';
+
+			//Unready Player
+			playerReady = false;
+
+			//Check for weakness
+			for (var reg = dotArray.length - 1; reg >= 0; reg--) {
+				if(dotArray[reg][5] === usedSpell[3] && dotArray[reg][1] > 0) { //Effective!!
+					//console.log(reg + ' enables Effective Strike!');
+					effectiveDamage = usedSpell[1]; //Double Damage
+					effectiveMessage = lang.fightEffective;
+					var target = "#debuff-" + reg;
+					(function(target) { 
+       					$(target).addClass('active');
+       					setTimeout(function(){$(target).removeClass();},200);
+    				})(target);	
+				};
+			};
+
+			//Apply Damage
+			if (usedSpell[1] > 0) {
+				if (getRandomInt(1,6) == 6) { //Crit!!
+					fightHealth = fightHealth - (((playerDamage + playerDamageBuff) * (usedSpell[1] + effectiveDamage)) * 2);
+					$('#fighting-status').append('<span>' + lang.fightCrit + effectiveMessage + '</span>');
+					setTimeout(function(){ $('#fighting-status').html(''); }, 900);
+				} else {
+					fightHealth = fightHealth - ((playerDamage + playerDamageBuff) * (usedSpell[1] + effectiveDamage));
+					if (effectiveMessage != '') {
+						$('#fighting-status').append('<span>' + effectiveMessage + '</span>');
+						setTimeout(function(){ $('#fighting-status').html(''); }, 900);
+					};
+				};
+				if (fightHealth < 0) { fightHealth = 0; }; //Block negative values
+
+				//Draw Enemy Health
+				var healthRatio = (fightHealth / fightMaxHealth) * 100;
+				$('#fighting-healthbarmeter').css('width', healthRatio + '%');
+				$('#fighting-name').addClass('damagetaken');
+				$('#fighting-healthbar').addClass('healthbarDmg');
+				setTimeout(function(){ $('#fighting-healthbar, #fighting-name').removeClass();}, 200);
+				if (playerDamageBuff > 0) {
+					$('#fighting-bufflist span').addClass('active');
+					setTimeout(function(){ $('#fighting-bufflist span').removeClass();}, 200);
+				};
+			};
+
+			
+
+			$('#fighting-healthlabel').text(fightHealth + ' / ' + fightMaxHealth);
+
+
+			//Heal Player
+			if (usedSpell[2] != 0) {
+				currentHealth += usedSpell[2];
+				if (currentHealth >= maxHealth) { currentHealth = maxHealth; };
+				drawHealth(true);
+			};
+
+			//Apply debuff
+			applyDebuff(usedSpell[4]);
+
+
+			//Apply buff
+			applyBuff(usedSpell[5]);
+			
+
+			if (fightHealth <= 0) { //Victory
+				fightVictory();
+			}
+			else {
+				setTimeout(function(){
+					useEnemySpell();
+				}, 400);
+			};
+		}
+
+		function fightVictory() {
+			playerBuffs.length = 0;
+			dotArray.length = 0;
+			$('#fighting-bufflist span, #fighting-debufflist span').addClass('remove');
+			$('#fighting-att1, #fighting-att2, #fighting-att3, #fighting-att4, #fighting-deff1').unbind();
+			setTimeout(function(){
+				$('#fighting-bufflist, #fighting-debufflist').html(' ');
+				$('#fighting-name').addClass('dead');
+				itemText = addLoot(0, true);
+				$('#fighting-button').fadeIn();
+				setTimeout(function(){
+					$('#fighting').addClass('hidden');
+					$('#fighting-button').fadeOut('400', function() {
+						$('#fighting-name').removeClass('dead');
+					});
+					roomStorage[positionAssociated[currentPosition]][2] = true; //Check room as cleared
+					var target = ".idbox:nth-of-type(" + currentPosition + ")";
+					$(target).addClass('visited'); //Mark room as cleared on map
+					var clearedText = '<br>' + fightName + lang.roomEnemyDead;
+					roomStorage[positionAssociated[currentPosition]][3] = clearedText;
+					$('#text-main').html(clearedText + itemText).removeClass();
+					freeToGo = true;
+					if (checkFloorFinish(false, true)) { prepareNextFloor(); };
+				}, 300);
+			}, 400);
+		}
+
+		function useEnemySpell() {
+			//Choose Spell
+			var usedSpell = enemySpells[fightBehaviour[getRandomInt(0,3)]];
+			var i = 0;
+
+			$('#fighting-enemyspell span').text(usedSpell[0]);
+			$('#fighting-enemyspell').addClass('visible');
+			setTimeout(function(){
+				$('#fighting-enemyspell').removeClass();
+			}, 900);
+
+
+
+			//Apply damage
+			if ((fightDamage * usedSpell[1]) > 0) {
+
+				var reg = getRandomInt(0, 100);
+
+				if (reg < (playerEvasion + playerEvasionBuff)) {
+					//Display 'Blocked!'
+					$('#fighting-status').append('<span>' + lang.fightBlock + '</span>');
+					setTimeout(function(){ $('#fighting-status').html(''); }, 900);
+					$('#fighting-bufflist').addClass('damagetaken');
+					setTimeout(function(){$('#fighting-bufflist').removeClass(); applyBuff(2);}, 200);
+				} else {
+					currentHealth = currentHealth - ((fightDamage + fightDamageBuff) * usedSpell[1]);
+					setTimeout(function() {
+						drawHealth(false);
+						$('#hud').addClass('damagetaken');
+						setTimeout(function(){$('#hud').removeClass();}, 200);
+					}, 250);
+				}
+
+				if (fightDamageBuff > 0) { fightDamageBuff = 0; }; //Reset Damage Buildup
+			};
+
+			
+
+			//Apply Heal
+			if ((fightDamage * usedSpell[2]) > 0) {
+				fightHealth = fightHealth + (fightDamage * usedSpell[2]);
+				if (fightHealth > fightMaxHealth) { fightHealth = fightMaxHealth };
+				var healthRatio = (fightHealth / fightMaxHealth) * 100;
+				setTimeout(function(){
+					$('#fighting-healthbarmeter').css('width', healthRatio + '%');
+					$('#fighting-healthlabel').text(fightHealth + ' / ' + fightMaxHealth);
+					$('#fighting-healthbar').addClass('healthbarHeal');
+					setTimeout(function(){ $('#fighting-healthbar').removeClass();}, 150);
+				}, (250));
+			};
+
+			//Special
+			if (usedSpell[3] === true) {
+				fightDamageBuff++;
+			};
+
+			setTimeout(function() {
+				//Run Buff Handler
+				buffHandler();
+				dotHandler();
+				playerReady = true;
+			}, 600);
+		}
+
+		function applyBuff(i) {
+			//buffs[X] = new Array('Name', HoT-Duration, HoT-Damage, Stat-type, Stat-value, Stat-Duration);
+
+			if (i === 0 || buffs[i] == undefined || i == undefined || i === false) { return; };
+
+			var reg = playerBuffs.length + 1;
+
+			if (buffs[i][1] != 0) {
+				//Apply HoT
+				//WIP
+			};
+
+			if (buffs[i][3] != 0) {
+				//Apply Stat Buff
+				if (buffs[i][3] === 1) {
+					//Grant Evasion
+					playerEvasionBuff += buffs[i][4];
+					playerBuffs[playerBuffs.length] = new Array(i, buffs[i][5], reg); //Add to the end of playerBuffs array for the buffHandler();
+					//console.log('Evasion buff granted! Appended as #bufflist-' + reg);
+				};
+				if (buffs[i][3] === 2) {
+					//Grant Damage
+					playerDamageBuff += buffs[i][4];
+					playerBuffs[playerBuffs.length] = new Array(i, buffs[i][5], reg); //Add to the end of playerBuffs array for the buffHandler();
+					//console.log('Damage buff granted! Appended as #bufflist-' + reg);
+				};
+			};
+
+			$('#fighting-bufflist').append('<span class="fresh" id="bufflist-' + reg + '">' + buffs[i][0] + ' (' + buffs[i][5] + ')</span>')
+		}
+
+		function applyDebuff(i) {
+			if (i === 0 || debuffs[i] == undefined || i == undefined || i === false) { return; };
+
+			var reg = dotArray.length;
+
+			for (var rig = dotArray.length - 1; rig >= 0; rig--) {
+				if (dotArray[rig][4] === i && dotArray[rig][1] > 0) { //If the type of debuff already exists (and is still active)..
+					//...just refresh the timer and return
+					dotArray[rig][1] = debuffs[i][1];
+					var target = "#debuff-" + rig;
+					$(target).removeClass();
+					(function(target) { 
+       				$(target).addClass('fresh');
+       				setTimeout(function(){$(target).removeClass();},200);
+    				})(target);	
+					return;
+				}
+			};
+
+			//Register the debuff
+			dotArray[reg] = new Array(true, debuffs[i][1], debuffs[i][2], reg, i, debuffs[i][3]);
+
+			//Add the marker
+			$('#fighting-debufflist').append('<span class="fresh" id="debuff-' + reg + '">' + debuffs[i][0] + '</span>');
+		}
+
+		function dotHandler() {
+			//dotArray[x] = new Array(OnEnemy (true/false), duration, damage, #marker-id, debuffID, weakness(false or type));
+			var playerHurt = false;
+			var enemyHurt = false;
+
+			if (dotArray.length == 0) { return; };
+
+			for (var i = dotArray.length - 1; i >= 0; i--) {
+				if (dotArray[i][1] > 0) {
+					//Reduce Time
+					dotArray[i][1]--;
+
+					//Check if over
+					if (dotArray[i][1] <= 0) {
+						//Remove the marker
+						if (dotArray[i][0]) {
+							var target = "#debuff-" + i;
+							(function(target) { 
+       							$(target).addClass('remove');
+       							setTimeout(function(){$(target).remove();},200);
+    						})(target);						
+						};
+					} else {
+						if (dotArray[i][0] === true && dotArray[i][2] > 0) {
+							//Damage the enemy
+							fightHealth -= dotArray[i][2];
+							enemyHurt = true;
+
+							//Flash the responsible debuff
+							var target = "#debuff-" + i;
+							(function(target) { 
+       							$(target).addClass('active');
+       							setTimeout(function(){$(target).removeClass();},200);
+    						})(target);	
+
+    						if (fightHealth <= 0) { fightVictory(); };
+
+						} else if (dotArray[i][0] === false && dotArray[i][2] > 0) {
+							//Damage the player
+							currentHealth -= dotArray[i][2];
+							playerHurt = true;
+						};
+					};
+				};
+			};
+
+			//Draw enemy Health
+			if (enemyHurt) {
+				var healthRatio = (fightHealth / fightMaxHealth) * 100;
+				$('#fighting-healthlabel').text(fightHealth + ' / ' + fightMaxHealth);
+				$('#fighting-healthbarmeter').css('width', healthRatio + '%');
+				$('#fighting-name').addClass('damagetaken');
+				$('#fighting-healthbar').addClass('healthbarDmg');
+				setTimeout(function(){ $('#fighting-healthbar, #fighting-name').removeClass();}, 200);
+			};
+
+			if (playerHurt) { drawHealth(false); };
+
+			
+		}
+
+		function buffHandler() {
+			//playerBuffs[x] = new Array(BuffID, Duration, #id);
+
+			if (playerBuffs.length == 0) { return; };
+
+			for (var i = playerBuffs.length - 1; i >= 0; i--) { //Go through each element of playerBuffs[x]
+				if (playerBuffs[i][1] > 0) {
+
+				//Build the Selector
+				var target = '#bufflist-' + playerBuffs[i][2];
+
+				//Distract one from the Duration and update the Text
+				playerBuffs[i][1]--;
+				$(target).text(buffs[playerBuffs[i][0]][0] + ' (' + playerBuffs[i][1] + ')');
+
+				if (playerBuffs[i][1] <= 0) { //If timer reached zero
+
+					if (buffs[playerBuffs[i][0]][3] === 1) { //If type is Evasion
+						playerEvasionBuff -= buffs[playerBuffs[i][0]][4]; //Reduce by buffed amount
+						//console.log('Evasion buff revoked!');
+					};
+
+					if (buffs[playerBuffs[i][0]][3] === 2) { //If type is Damage
+						playerDamageBuff -= buffs[playerBuffs[i][0]][4]; //Reduce by buffed amount
+						//console.log('Damage buff revoked!');
+					};
+
+					//Fade out the buff and remove it. (Invoke function to keep the variable over several loops)
+					(function(target) { 
+       					$(target).addClass('remove');
+       					setTimeout(function(){$(target).remove();},200);
+						//console.log(target + ' removed!');
+    				})(target);
+
+				};
+
+				}
+			};
+		}
+
+		function cdSpell(i, duration) {
+			//Build Target
+			var target = '#fighting-att' + i + ' div';
+
+			//Show div
+			$(target).css({ display: "block" });
+
+			//Animate it down
+			$(target).animate({height: "0%"}, duration, 'linear');
+
+			//Revert it after duration
+			setTimeout(function(){ $(target).css({ height: "100%", display: "none" }); }, (duration + 50));
+		}
+
+		function sMessage(theText) {
+			$('#text-main').fadeOut('200', function(){ $('#text-main').html(theText); $('#text-main').fadeIn('200');});
+		}
+
+		function fastMessage(theText) { $('#text-main').html(theText); }
+
+		function addLoot(itemPool, dropChance) {
+			var additionalText = '';
+			var lootRoll = getRandomInt(1, 2);
+			if (lootRoll == 1 && dropChance == true) { return ' ';};
+
+			if (itemPool == 0) { //Monsterpool
+				var i = getRandomInt(0, 10);
+
+				if (i <= 7) { //70% chance to get a consumable
+					i = getRandomInt(0, (consumables.length - 1));
+					inventory[consumables[i][1]]++;
+					if (showPainkillerTip === true) {
+						if (i === 2 || i === 4) {
+							showPainkillerTip = false;
+							additionalText = lang.itemPainkillerTip;
+						};
+					};
+					var reg = consumables[i][0];
+					drawInventory();
+					//console.log('Consumable ' + i);
+				};
+
+				if (i == 8) {
+					i = getRandomInt(0, (trinketItems.length - 1));
+					var reg = trinketItems[i];
+					//console.log('Trinket ' + i);
+				};
+
+				if (i == 9) {//10% chance for G-Item 
+					i = getRandomInt(0, (gItems.length - 1));
+					var reg = gItems[i];
+					//console.log('G-Item ' + i);
+				};
+
+				if (i == 10) {//5% for either upgrades or spells
+					if (getRandomInt(1,2) == 1) {
+						i = getRandomInt(0, (upgradeItems.length - 1));
+						var reg = upgradeItems[i][0];
+						//console.log('Upgrade ' + i);
+						if (upgradeItems[i][1] == 1) {
+							maxHealth = maxHealth + upgradeItems[i][2];
+							currentHealth = currentHealth + upgradeItems[i][2];
+							additionalText = lang.playerHealthUp;
+							drawHealth();
+						} else if (upgradeItems[i][1] == 2) {
+							playerDamage = playerDamage + upgradeItems[i][2];
+							additionalText = lang.playerDamageUp;
+						};
+						if (upgradeItems[i][2] == true) { //Trigger Special
+							if (i == 3) { //Schlagring
+								spells[0][1] = 1.5;
+								additionalText = lang.playerPunchUp;
+							};
+						};
+					} else {
+						if (spellItems.length > 0) {
+						i = getRandomInt(0, (spellItems.length - 1));
+						var reg = spellItems[i][0];
+						learnSpell(spellItems[i][1]);
+						additionalText = spells[spellItems[i][1]][0] + lang.playerSpellLearned;
+						spellItems.splice(i, 1); //remove the granted item from the pool
+						} else {
+							i = getRandomInt(0, (upgradeItems.length - 1));
+							var reg = upgradeItems[i][0];
+							//console.log('Upgrade ' + i);
+							if (upgradeItems[i][1] == 1) {
+								maxHealth = maxHealth + upgradeItems[i][2];
+								currentHealth = currentHealth + upgradeItems[i][2];
+								additionalText = lang.playerHealthUp;
+								drawHealth();
+							} else if (upgradeItems[i][1] == 2) {
+								playerDamage = playerDamage + upgradeItems[i][2];
+								additionalText = lang.playerDamageUp;
+							};
+							if (upgradeItems[i][2] == true) { //Trigger Special
+								if (i == 3) { //Schlagring
+									spells[0][1] = 1.5;
+									additionalText = lang.playerPunchUp;
+								};
+							};
+						};
+					};
+				};
+			};
+
+			if (itemPool == 1) { //Truhenpool
+				var i = getRandomInt(0, 10);
+
+				if (i <= 4) { //40% chance consumable
+					i = getRandomInt(0, (consumables.length - 1));
+					inventory[consumables[i][1]]++;
+					if (showPainkillerTip === true && i === 2) {
+						showPainkillerTip = false;
+						additionalText = lang.itemPainkillerTip;
+					};
+					var reg = consumables[i][0];
+					drawInventory();
+				};
+				if (i == 5) {
+					i = getRandomInt(0, (trinketItems.length - 1));
+					var reg = trinketItems[i];
+					//console.log('Trinket ' + i);
+				};
+				if (i >= 6 && i <= 7) {
+					i = getRandomInt(0, (gItems.length - 1));
+					var reg = gItems[i];
+					//console.log('G-Item ' + i);
+				};
+				if (i >=8 && i <=9) {
+					i = getRandomInt(0, (upgradeItems.length - 1));
+					var reg = upgradeItems[i][0];
+					//console.log('Upgrade ' + i);
+					if (upgradeItems[i][1] == 1) {
+						maxHealth = maxHealth + upgradeItems[i][2];
+						currentHealth = currentHealth + upgradeItems[i][2];
+						additionalText = lang.playerHealthUp;
+						drawHealth();
+					} else if (upgradeItems[i][1] == 2) {
+						playerDamage = playerDamage + upgradeItems[i][2];
+						additionalText = lang.playerDamageUp;
+					};
+					if (upgradeItems[i][2] == true) { //Trigger Special
+						if (i == 3) { //Schlagring
+							spells[0][1] = 1.5;
+							additionalText = lang.playerPunchUp;
+						};
+					};
+				};
+				if (i == 10) {
+					if (spellItems.length > 0) {
+						i = getRandomInt(0, (spellItems.length - 1));
+						var reg = spellItems[i][0];
+						learnSpell(spellItems[i][1]);
+						additionalText = spells[spellItems[i][1]][0] + lang.playerSpellLearned;
+						spellItems.splice(i, 1); //remove the granted item from the pool
+					} else {
+						i = getRandomInt(0, (upgradeItems.length - 1));
+						var reg = upgradeItems[i][0];
+						//console.log('Upgrade ' + i);
+						if (upgradeItems[i][1] == 1) {
+							maxHealth = maxHealth + upgradeItems[i][2];
+							currentHealth = currentHealth + upgradeItems[i][2];
+							additionalText = lang.playerHealthUp;
+							drawHealth();
+						} else if (upgradeItems[i][1] == 2) {
+							playerDamage = playerDamage + upgradeItems[i][2];
+							additionalText = lang.playerDamageUp;
+						};
+						if (upgradeItems[i][2] == true) { //Trigger Special
+							if (i == 3) { //Schlagring
+								spells[0][1] = 1.5;
+								additionalText = lang.playerPunchUp;
+							};
+						};
+					};
+				};
+			}
+
+			if (itemPool == 2) { //Itemraumpool
+				if (spellItems.length > 0) {
+						if (floorDifficulty === 1) { i = 1; } //Always recieve Block and nothing else in the first item room (for now)
+						else { i = getRandomInt(0, (spellItems.length - 1)); };
+						var reg = spellItems[i][0];
+						learnSpell(spellItems[i][1]);
+						additionalText = spells[spellItems[i][1]][0] + lang.playerSpellLearned;
+						spellItems.splice(i, 1); //remove the granted item from the pool
+					} else {
+						i = getRandomInt(0, (upgradeItems.length - 1));
+						var reg = upgradeItems[i][0];
+						//console.log('Upgrade ' + i);
+						if (upgradeItems[i][1] == 1) {
+							maxHealth = maxHealth + upgradeItems[i][2];
+							currentHealth = currentHealth + upgradeItems[i][2];
+							additionalText = lang.playerHealthUp;
+							drawHealth();
+						} else if (upgradeItems[i][1] == 2) {
+							playerDamage = playerDamage + upgradeItems[i][2];
+							additionalText = lang.playerDamageUp;
+						};
+						if (upgradeItems[i][2] == true) { //Trigger Special
+							if (i == 3) { //Schlagring
+								spells[0][1] = 1.5;
+								additionalText = lang.playerPunchUp;
+							};
+						};
+					};
+			};
+
+			var returnText = '<br>' + reg + lang.itemObtained + '<br>' + additionalText;
+			return returnText;
+		}
+
+		function learnSpell(i) {
+			spellBook[spellBook.length] = spells[i];
+			drawSpells();
+		}
+
+		function gameOver(alphastop) {
+			$('#fighting-att1, #fighting-att2, #fighting-att3, #fighting-att4, #fighting-deff1, #hud-spk').unbind();
+			$('#fighting, #hud, #idcontainer').addClass('hidden');
+			setTimeout(function(){
+				$('#hud, #idcontainer, #fighting').remove();
+				$('#floortitle').animate({ marginLeft: '-201px' }, 400);
+				setTimeout(function(){$('#text-main').removeClass();},400);
+				if (alphastop === true) {
+					sMessage(lang.alphaOver);
+				} else {
+					sMessage(lang.gameOver);
+				}
+			},900);
+			
+			freeToGo = false;
+		}
+
+		function romanize(num) {
+    		if (!+num)
+        	return false;
+    		var digits = String(+num).split(""),
+        	key = ["","C","CC","CCC","CD","D","DC","DCC","DCCC","CM",
+               "","X","XX","XXX","XL","L","LX","LXX","LXXX","XC",
+               "","I","II","III","IV","V","VI","VII","VIII","IX"],
+        	roman = "",
+        	i = 3;
+    		while (i--)
+        	roman = (key[+digits.pop() + (i * 10)] || "") + roman;
+    		return Array(+digits.join("") + 1).join("M") + roman;
+		}
+
+		$(function() {
+			$('*').mouseup(function(){ //Suppress Text selection by all means. This might be a bit performance intensive but there is no way to work around the fucking Firefox bug at the moment.
+				if (getSelectedText()) {
+					clearSelection();
+				};
+			});
+
+			//Floor Creation
+			createFloor();
+			drawInventory();
+
+			var target = ".idbox:nth-of-type(" + currentPosition + ")";
+			$(target).addClass('present');
+
+			//Grant Punch to the player
+			spellBook[0] = spells[0];
+
+			//Map Render
+			var foundConnections = findProximity(currentPosition);
+				for (var i = foundConnections.length - 1; i >= 0; i--) {
+					var target = ".idbox:nth-of-type(" + foundConnections[i] + ")";
+					$(target).addClass('focus');
+				};
+		});
+
+		$( document ).keydown(function(event){
+			//if(event.keyCode == 80){ learnSpell(6); learnSpell(1); learnSpell(2); startFight(6); freeToGo = false;} //P
+			if(event.keyCode == 86){ useSPK(); $('#hud-spk').addClass('active'); } //V
+
+			if (freeToGo == true) {
+				if(event.keyCode == 87 || event.keyCode == 38){ moveTo(1); } //W
+				if(event.keyCode == 65 || event.keyCode == 37){ moveTo(4); } //A
+				if(event.keyCode == 83 || event.keyCode == 40){ moveTo(3); } //S
+				if(event.keyCode == 68 || event.keyCode == 39){ moveTo(2); } //D
+				return;
+			};
+			if(event.keyCode == 81){ $("#fighting-att1").click().addClass('active'); } //Q
+			if(event.keyCode == 87){ $("#fighting-att2").click().addClass('active'); } //W
+			if(event.keyCode == 69){ $("#fighting-att3").click().addClass('active'); } //E
+			if(event.keyCode == 82){ $("#fighting-att4").click().addClass('active'); } //R
+			if(event.keyCode == 68){ $("#fighting-deff1").click().addClass('active'); } //D
+			if(event.keyCode == 70){ $("#fighting-deff2").click().addClass('active'); } //F
+
+		});
+		
+		$( document ).keyup(function(event){
+			if(event.keyCode == 81){ $("#fighting-att1").removeClass('active'); } //Q
+			if(event.keyCode == 87){ $("#fighting-att2").removeClass('active'); } //W
+			if(event.keyCode == 69){ $("#fighting-att3").removeClass('active'); } //E
+			if(event.keyCode == 82){ $("#fighting-att4").removeClass('active'); } //R
+			if(event.keyCode == 68){ $("#fighting-deff1").removeClass('active'); } //D
+			if(event.keyCode == 70){ $("#fighting-deff2").removeClass('active'); } //F
+
+			if(event.keyCode == 86){ $('#hud-spk').removeClass('active'); } //V
+		});
+
+		function clearSelection() {
+			if (window.getSelection) {
+			  if (window.getSelection().empty) {  // Chrome
+			    window.getSelection().empty();
+			  } else if (window.getSelection().removeAllRanges) {  // Firefox
+			    window.getSelection().removeAllRanges();
+			  }
+			} else if (document.selection) {  // IE?
+			  document.selection.empty();
+			}
+		}
+
+		function getSelectedText() {
+        	if (window.getSelection) {
+        	    return true;
+        	} else if (document.selection) {
+        	    return true;
+        	}
+        	return false;
+    	}
+
+		function changeLanguage(language) {
+			$('#overlay-start').addClass('loading');
+			$('#overlay-language .active').removeClass();
+			var target = "#overlay-language-" + language;
+			$(target).addClass('active');
+
+			delete lang;
+			if (language === 1) { $.getScript('crawl.en.js', function(){ $('#overlay-start').removeClass('loading') }); };
+			if (language === 2) { $.getScript('crawl.de.js', function(){ $('#overlay-start').removeClass('loading') }); };
+		}
+	</script>
+</head>
+<body>
+<div id="globalwrapper">
+	<div id="floortitle" onselectstart="return false;" class="hidden">Katakomben I</div>
+
+	<div id="idcontainer" onselectstart="return false;" class="hidden">
+
+		<div class="idbox" onselectstart="return false;"></div><div class="idbox"></div><div class="idbox"></div><div class="idbox"></div><div class="idbox"></div><div class="idbox"></div><div class="idbox"></div><div class="idbox"></div><div class="idbox"></div><div class="idbox"></div><div class="idbox"></div><div class="idbox"></div><div class="idbox"></div><div class="idbox"></div><div class="idbox"></div><div class="idbox"></div><div class="idbox"></div><div class="idbox"></div><div class="idbox"></div><div class="idbox"></div><div class="idbox"></div><div class="idbox"></div><div class="idbox"></div><div class="idbox"></div><div class="idbox"></div><div class="idbox"></div><div class="idbox"></div><div class="idbox"></div><div class="idbox"></div><div class="idbox"></div><div class="idbox"></div><div class="idbox"></div><div class="idbox"></div><div class="idbox"></div><div class="idbox"></div><div class="idbox"></div><div class="idbox"></div><div class="idbox"></div><div class="idbox"></div><div class="idbox"></div><div class="idbox"></div><div class="idbox"></div><div class="idbox"></div><div class="idbox"></div><div class="idbox"></div><div class="idbox"></div><div class="idbox"></div><div class="idbox"></div><div class="idbox"></div>
+	</div>
+
+	<div id="hud" class="hidden" onselectstart="return false;">
+		<div id="hud-healthlabel"></div>
+		<div id="hud-healthbar">
+			<span id="hud-healthbarmeter" style="width: 0%"></span>
+		</div>
+		<div id="hud-keys"></div><div id="hud-spk" onclick="useSPK()"></div><div id="hud-potion"></div>
+		<!-- DEBUG 
+		<div id="hud-currentroom"></div>
+		<div id="hud-currentconnections"></div>
+		<div id="hud-currenttype"></div>-->
+	</div>
+
+	<div id="text-main" style="display: none;" onselectstart="return false;">
+	</div>
+
+	<div id="fighting" class="hidden" onselectstart="return false;">
+		<div id="fighting-bufflist">
+		</div>
+		<div id="fighting-status"></div>
+		<div id="fighting-name"></div>
+		<div id="fighting-enemyspell"><span></span></div>
+		<div id="fighting-healthlabel"></div>
+		<div id="fighting-healthbar">
+			<span id="fighting-healthbarmeter" style="width: 0%"></span>
+		</div>
+		<div id="fighting-debufflist"></div>
+		<div id="fighting-button"></div>
+		<div id="fighting-bar">
+			<div id="fighting-menu">
+				<span id="fighting-att1"><div></div></span>
+				<span id="fighting-att2" class="disabled"><div></div>-</span>
+				<span id="fighting-att3" class="disabled"><div></div>-</span>
+				<span id="fighting-att4" class="disabled"><div></div>-</span>
+			</div>
+			<div id="fighting-secmenu">
+				<span id="fighting-deff1"></span>
+				<span id="fighting-deff2" class="disabled"></span>
+			</div>
+		</div>
+	</div>
+
+	<div id="overlay" onselectstart="return false;">
+		<canvas id="overlay-titlecanvas"></canvas>
+		<div id="overlay-start" onclick="introHandler(0);">- Start -</div>
+		<div id="overlay-options" onclick="$('#overlay').toggleClass('options')">- Language -</div>
+		<div id="overlay-language">
+			<span id="overlay-language-1" class="active" onclick="changeLanguage(1)">[ English ]</span> <span id="overlay-language-2" onclick="changeLanguage(2)">[ Deutsch ]</span>
+		</div>
+	</div>
+</div>
+<script type="text/javascript" src="glitch.js"></script>
+</body>
+</html>
